@@ -1,49 +1,68 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Admin Page</title>
- <link type="text/css" rel="stylesheet" href="<c:url value="/css/bootstrap.css" />" />	
- <link type="text/css" rel="stylesheet" href="<c:url value="/css/bootstrap.min.css" />" />
- <link type="text/css" rel="stylesheet" href="<c:url value="/css/bootstrap-theme.min.css" />" />	
- <style type="text/css">
-	.bs-example{
-		margin: 20px;
-	}
-</style> 	
+
+<script type="text/javascript" src="../js/jquery-1.4.1.min.js"></script>
+<script type="text/javascript" src="../js/jquery-1.10.2.js"></script>
+<link type="text/css" rel="stylesheet"
+	href="<c:url value="/css/bootstrap.css" />" />
+<link type="text/css" rel="stylesheet"
+	href="<c:url value="/css/bootstrap.min.css" />" />
+
+<script type="text/javascript" src="../js/bootstrap.min.js"></script>
+<style>
+.fade {
+	opacity: 0;
+	-webkit-transition: opacity 2.25s linear;
+	-moz-transition: opacity 2.25s linear;
+	-ms-transition: opacity 2.25s linear;
+	-o-transition: opacity 2.25s linear;
+	transition: opacity 2.25s linear;
+}
+</style>
 </head>
 <body>
-<div class="bs-example">
-    <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#sectionA">Section A</a></li>
-        <li><a data-toggle="tab" href="#sectionB">Section B</a></li>
-        <li class="dropdown">
-            <a data-toggle="dropdown" class="dropdown-toggle" href="#">Dropdown <b class="caret"></b></a>
-            <ul class="dropdown-menu">
-                <li><a data-toggle="tab" href="#dropdown1">Dropdown1</a></li>
-                <li><a data-toggle="tab" href="#dropdown2">Dropdown2</a></li>
-            </ul>
-        </li>
-    </ul>
-    <div class="tab-content">
-        <div id="sectionA" class="tab-pane fade in active">
-            <h3>Section A</h3>
-            <p>Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui. Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth.</p>
-        </div>
-        <div id="sectionB" class="tab-pane fade">
-            <h3>Section B</h3>
-            <p>Vestibulum nec erat eu nulla rhoncus fringilla ut non neque. Vivamus nibh urna, ornare id gravida ut, mollis a magna. Aliquam porttitor condimentum nisi, eu viverra ipsum porta ut. Nam hendrerit bibendum turpis, sed molestie mi fermentum id. Aenean volutpat velit sem. Sed consequat ante in rutrum convallis. Nunc facilisis leo at faucibus adipiscing.</p>
-        </div>
-        <div id="dropdown1" class="tab-pane fade">
-            <h3>Dropdown 1</h3>
-            <p>WInteger convallis, nulla in sollicitudin placerat, ligula enim auctor lectus, in mollis diam dolor at lorem. Sed bibendum nibh sit amet dictum feugiat. Vivamus arcu sem, cursus a feugiat ut, iaculis at erat. Donec vehicula at ligula vitae venenatis. Sed nunc nulla, vehicula non porttitor in, pharetra et dolor. Fusce nec velit velit. Pellentesque consectetur eros.</p>
-        </div>
-        <div id="dropdown2" class="tab-pane fade">
-            <h3>Dropdown 2</h3>
-            <p>Donec vel placerat quam, ut euismod risus. Sed a mi suscipit, elementum sem a, hendrerit velit. Donec at erat magna. Sed dignissim orci nec eleifend egestas. Donec eget mi consequat massa vestibulum laoreet. Mauris et ultrices nulla, malesuada volutpat ante. Fusce ut orci lorem. Donec molestie libero in tempus imperdiet. Cum sociis natoque penatibus et magnis.</p>
-        </div>
-    </div>
-</div>
+
+	<div class="container" style="border: 1px solid #cecece; width: 999px">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#tab_a" data-toggle="tab">Imported
+					Users</a></li>
+			<li><a href="#tab_b" data-toggle="tab">Upload File</a></li>
+			<li><a href="#tab_c" data-toggle="tab">Tab C</a></li>
+			<li><a href="#tab_d" data-toggle="tab">Tab D</a></li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane fade in active" id="tab_a">
+				<h4>Pane A</h4>
+				<p>Pellentesque habitant morbi tristique senectus et netus et
+					malesuada fames ac turpis egestas.</p>
+			</div>
+			<div class="tab-pane fade" id="tab_b">
+				<h4>Import Users</h4>
+				<form method="POST" action="upload?${_csrf.parameterName}=${_csrf.token}"
+					enctype="multipart/form-data">
+					File to upload: <input type="file" name="file"> <input type="submit"
+						value="Upload"> Press here to upload the file!
+						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+				</form>
+			</div>
+			<div class="tab-pane fade" id="tab_c">
+				<h4>Pane C</h4>
+				<p>Pellentesque habitant morbi tristique senectus et netus et
+					malesuada fames ac turpis egestas.</p>
+			</div>
+			<div class="tab-pane fade" id="tab_d">
+				<h4>Pane D</h4>
+				<p>Pellentesque habitant morbi tristique senectus et netus et
+					malesuada fames ac turpis egestas.</p>
+			</div>
+		</div>
+		<!-- tab content -->
+	</div>
+	<!-- container -->
 
 </body>
-</html>         
+</html>
