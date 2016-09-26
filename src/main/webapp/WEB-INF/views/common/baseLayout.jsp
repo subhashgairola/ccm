@@ -9,7 +9,7 @@
 	</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">	
 	<style>
-		#wrapper { width: 1000px; background: #FFFFFF;margin:auto; overflow: hidden; min-height: 400px; }   
+		#wrapper { width: 100%; background: #E0FFFF;margin:auto; overflow: hidden; min-height: 400px; }   
 		#header { background: black; color: white; }   
 		#footer { margin-top:10px; clear: both; background: #F5F5F5;border-top: 1px solid #CCC; height: 30px; }
 	</style>

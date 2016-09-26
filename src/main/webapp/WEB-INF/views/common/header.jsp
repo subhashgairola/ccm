@@ -2,7 +2,7 @@
 
 <style>
 #header{
-	background-color: #B2A7A7; 
+	background-color: #00CED1; 
 	height:54px;
 	/* moz-border-radius: 5px;
    	webkit-border-radius: 5px;
@@ -33,7 +33,7 @@
 
 
 <div id="header" >
-<table width="100%" border="0" class="ui-widget-header" > <tr> <td valign="top" width="40%"><h1>JavaTechDevelopers.com</h1>
+<table width="100%" border="0" class="ui-widget-header" > <tr> <td valign="top" width="80%"><h1>CCM</h1>
 <%-- <img src="<%=request.getContextPath()%>/images/logo.jpg" width="200" height="70" style="margin: 0;"/> --%>
 </td> <td width="60%" valign="bottom"><h5>
  <c:if test="${pageContext.request.userPrincipal.name != null}">
@@ -42,5 +42,3 @@
 </h5></td> </tr></table>
 
 </div>
-
-<%-- <img src="<%=request.getContextPath()%>/images/logo-facile.jpg" width="170" height="60" /> --%>

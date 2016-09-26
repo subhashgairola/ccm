@@ -8,14 +8,16 @@
 <link type="text/css" rel="stylesheet"
 	href="<c:url value="/css/bootstrap.min.css" />" />
 	<style>
+	/*
 	body {
-    background:#333;
+    background:#ADD8E6;
 }
+*/
 .form_bg {
-    background-color:#eee;
+    background-color:#ccffeb;
     color:#666;
     padding:20px;
-    border-radius:10px;
+    border-radius:2px;
     position: absolute;
     border:1px solid #fff;
     margin: auto;
@@ -23,8 +25,8 @@
     right: 0;
     bottom: 0;
     left: 0;
-    width: 320px;
-    height: 280px;
+    width: 250px;
+    height: 220px;
 }
 .align-center {
     text-align:center;
@@ -33,23 +35,23 @@
 </head>
 <body>
 
-<div class="container">
+<div class="container" >
     <div class="row">
         <div class="form_bg">
            <form:form name='loginForm' id="loginForm" action="../j_spring_security_check" method='POST'>
-            <p>${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}</p>
-                 <h2 class="text-center">Login Here</h2>
-                <br/>
-                <div class="form-group">
-                  <input id="j_username" name="j_username" type="text" class="form-control" placeholder="Username" size="30" autocomplete="on" autofocus="autofocus" >
+                <center> <img src="../img/user.png" style="width:40px;height:40px;"></center><br/>
+                <div class="form-group ">
+                  <input id="j_username" name="j_username" required type="text" class="form-control " style="height:12%;font-size:12px" placeholder="Username" autocomplete="on" autofocus="autofocus" >
                   
                 </div>
                 <div class="form-group">
-                    <input id="j_password" name="j_password" type="password" class="form-control" placeholder="Password" size="30" autocomplete="on"  >
+                    <input id="j_password" name="j_password" required type="password" class="form-control" style="height:12%;font-size:12px" placeholder="Password" autocomplete="on"  >
                 </div>
-                <br/>
+			
+						<span style="font-size:10px;color:red;">${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}</span>
+					
                 <div class="align-center">
-                    <button type="submit" class="btn btn-default" id="subbtn">Sign In</button>
+                    <button type="submit" class="btn btn-info" style="font-size:12px;" id="subbtn">Sign In</button>
                 </div>
             <input type="hidden" name="${_csrf.parameterName}"  value="${_csrf.token}" />
 	  </form:form>
