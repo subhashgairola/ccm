@@ -47,8 +47,10 @@
                 <div class="form-group">
                     <input id="j_password" name="j_password" required type="password" class="form-control" style="height:12%;font-size:12px" placeholder="Password" autocomplete="on"  >
                 </div>
-			
-						<span style="font-size:10px;color:red;">${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}</span>
+					<c:if test="${ not empty SPRING_SECURITY_LAST_EXCEPTION}">
+						<span style="font-size:10px;color:#FF5733"> Your login attempt was not successful due to ${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}.</span>
+					</c:if>
+					
 					
                 <div class="align-center">
                     <button type="submit" class="btn btn-info" style="font-size:12px;" id="subbtn">Sign In</button>
