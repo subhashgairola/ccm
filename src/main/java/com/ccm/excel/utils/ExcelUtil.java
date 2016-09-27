@@ -10,7 +10,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -25,50 +27,49 @@ public class ExcelUtil {
 		NAVMap.put(1, "clientName");
 		NAVMap.put(2, "mobileNum");
 		columnMapping.put(Constants.NAV_SOURCE_TYPE, NAVMap);
-		
+
 		Map<Integer, String> APSISmap = new HashMap<Integer, String>();
 		APSISmap.put(0, "clientId");
 		APSISmap.put(1, "clientName");
 		APSISmap.put(2, "email");
 		APSISmap.put(3, "creationDate");
-		columnMapping.put(Constants.APSIS_SOURCE_TYPE, NAVMap);
-		
-		/*Map<Integer, String> MagentoMap = new HashMap<Integer, String>();
-		MagentoMap.put(0, "clientId");
-		MagentoMap.put(1, "clientName");
-		MagentoMap.put(2, "mobileNum");
-		columnMapping.put(Constants.APSIS_SOURCE_TYPE, NAVMap);
-		
-		Map<Integer, String> navMap = new HashMap<Integer, String>();
-		navMap.put(0, "clientId");
-		navMap.put(1, "clientName");
-		navMap.put(2, "mobileNum");
-		columnMapping.put(Constants.APSIS_SOURCE_TYPE, NAVMap);
-		
-		Map<Integer, String> navMap = new HashMap<Integer, String>();
-		navMap.put(0, "clientId");
-		navMap.put(1, "clientName");
-		navMap.put(2, "mobileNum");
-		columnMapping.put(Constants.APSIS_SOURCE_TYPE, NAVMap);*/
+		columnMapping.put(Constants.APSIS_SOURCE_TYPE, APSISmap);
+
+		/*
+		 * Map<Integer, String> MagentoMap = new HashMap<Integer, String>();
+		 * MagentoMap.put(0, "clientId"); MagentoMap.put(1, "clientName");
+		 * MagentoMap.put(2, "mobileNum");
+		 * columnMapping.put(Constants.APSIS_SOURCE_TYPE, NAVMap);
+		 * 
+		 * Map<Integer, String> navMap = new HashMap<Integer, String>();
+		 * navMap.put(0, "clientId"); navMap.put(1, "clientName"); navMap.put(2,
+		 * "mobileNum"); columnMapping.put(Constants.APSIS_SOURCE_TYPE, NAVMap);
+		 * 
+		 * Map<Integer, String> navMap = new HashMap<Integer, String>();
+		 * navMap.put(0, "clientId"); navMap.put(1, "clientName"); navMap.put(2,
+		 * "mobileNum"); columnMapping.put(Constants.APSIS_SOURCE_TYPE, NAVMap);
+		 */
 	}
 
 	private static Object getCellValue(Cell cell) {
 		switch (cell.getCellType()) {
 		case Cell.CELL_TYPE_STRING:
 			return cell.getStringCellValue();
-
 		case Cell.CELL_TYPE_BOOLEAN:
 			return cell.getBooleanCellValue();
-
 		case Cell.CELL_TYPE_NUMERIC:
-			return cell.getNumericCellValue();
+			if(HSSFDateUtil.isCellDateFormatted(cell)){
+				return DateUtil.getJavaDate(cell.getNumericCellValue());
+			} else{
+				return cell.getStringCellValue();
+			}
 		}
-
 		return null;
 	}
 
 	public static List<ExcelRow> getExcelRows(InputStream inputStream,
-			String sourceType) throws IOException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+			String sourceType) throws IOException, IllegalAccessException,
+			InvocationTargetException, NoSuchMethodException {
 		List<ExcelRow> listBooks = new ArrayList<>();
 
 		Workbook workbook = new XSSFWorkbook(inputStream);
@@ -82,13 +83,13 @@ public class ExcelUtil {
 
 			while (cellIterator.hasNext()) {
 				Cell nextCell = cellIterator.next();
-				nextCell.setCellType(Cell.CELL_TYPE_STRING);
+				//nextCell.setCellType(Cell.CELL_TYPE_STRING);
 				int columnIndex = nextCell.getColumnIndex();
 				for (int i = 0; i < totalColumns; i++) {
 					if (i == columnIndex) {
 						PropertyUtils.setProperty(aBook,
 								columnMapping.get(sourceType).get(columnIndex),
-								 getCellValue(nextCell));
+								getCellValue(nextCell));
 						break;
 					}
 				}

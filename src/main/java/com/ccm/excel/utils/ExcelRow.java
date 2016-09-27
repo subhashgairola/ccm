@@ -1,7 +1,7 @@
 package com.ccm.excel.utils;
 
-import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Date;
 
 public interface ExcelRow {
 	public String getClientId();
@@ -14,7 +14,7 @@ public interface ExcelRow {
 
 	public String getMobileNum();
 
-	public Date getBirthDate();
+	public String getBirthDate();
 
 	public String getGender();
 
@@ -24,12 +24,14 @@ public interface ExcelRow {
 
 	public String getCountry();
 
-	public Date getInsertedDate();
+	public Timestamp getInsertedDate();
 
 	public Timestamp getUpdateDate();
 
 	public int getUpdatedBy();
 
 	public String getSourceSystem();
+
+	public String getCity();
 
 }

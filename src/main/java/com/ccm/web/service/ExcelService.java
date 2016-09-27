@@ -7,6 +7,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface ExcelService {
 
-	void save(MultipartFile file) throws IOException, IllegalAccessException, InvocationTargetException, NoSuchMethodException;
+	void save(MultipartFile file, String sourceType) throws IOException, IllegalAccessException, InvocationTargetException, NoSuchMethodException;
 
 }

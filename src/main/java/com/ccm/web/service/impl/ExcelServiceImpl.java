@@ -22,10 +22,10 @@ public class ExcelServiceImpl implements ExcelService {
 	private ExcelDao excelDao;
 	
 	@Override
-	public void save(MultipartFile file) throws IOException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+	public void save(MultipartFile file, String sourceType) throws IOException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 		InputStream is = file.getInputStream();
-		List<ExcelRow> rows = ExcelUtil.getExcelRows(is, "NAV");
-		excelDao.save(rows);
+		List<ExcelRow> rows = ExcelUtil.getExcelRows(is, sourceType);
+		excelDao.save(rows, sourceType);
 	}
 
 }

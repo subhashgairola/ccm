@@ -1,7 +1,7 @@
 package com.ccm.excel.utils;
 
-import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Date;
 
 public class ExcelRowImpl implements ExcelRow {
 	private String clientId;
@@ -9,13 +9,13 @@ public class ExcelRowImpl implements ExcelRow {
 	private String password;
 	private String email;
 	private String mobileNum;
-	private Date birthDate;
+	private String birthDate;
 	private String gender;
 	private Date creationDate;
 	private String ipAddress;
 	private String country;
 	private String city;
-	private Date insertedDate;
+	private Timestamp insertedDate;
 	private Timestamp updateDate;
 	private int updatedBy;
 	private String sourceSystem;
@@ -63,11 +63,11 @@ public class ExcelRowImpl implements ExcelRow {
 		this.mobileNum = mobileNum;
 	}
 
-	public Date getBirthDate() {
+	public String getBirthDate() {
 		return birthDate;
 	}
 
-	public void setBirthDate(Date birthDate) {
+	public void setBirthDate(String birthDate) {
 		this.birthDate = birthDate;
 	}
 
@@ -111,11 +111,11 @@ public class ExcelRowImpl implements ExcelRow {
 		this.city = city;
 	}
 
-	public Date getInsertedDate() {
+	public Timestamp getInsertedDate() {
 		return insertedDate;
 	}
 
-	public void setInsertedDate(Date insertedDate) {
+	public void setInsertedDate(Timestamp insertedDate) {
 		this.insertedDate = insertedDate;
 	}
 

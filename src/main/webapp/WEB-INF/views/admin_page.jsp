@@ -45,7 +45,7 @@
 					action="upload?${_csrf.parameterName}=${_csrf.token}"
 					enctype="multipart/form-data">
 					<div class="form-group">
-						<select name="filetype" required style="font-size: 12px">
+						<select name="sourceType" required style="font-size: 12px">
 							<option value="" selected>Select Source</option>
 							<option value="APSIS">APSIS</option>
 							<option value="NAV">NAV</option>

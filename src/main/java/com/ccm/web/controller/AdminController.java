@@ -32,10 +32,10 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "/admin/upload", method = RequestMethod.POST)
-	public @ResponseBody String uploadFileHandler(@RequestParam("file") MultipartFile file) {
+	public @ResponseBody String uploadFileHandler(@RequestParam("file") MultipartFile file, @RequestParam("sourceType") String sourceType) {
 		if (!file.isEmpty()) {
 			try {
-				excelService.save(file);
+				excelService.save(file, sourceType);
 				return "You successfully uploaded file=" + file.getName();
 			} catch (Exception e) {
 				return "You failed to upload " + file.getName() + " => " + e.getMessage();
