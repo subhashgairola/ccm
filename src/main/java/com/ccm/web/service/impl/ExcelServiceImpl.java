@@ -2,6 +2,7 @@ package com.ccm.web.service.impl;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -21,9 +22,9 @@ public class ExcelServiceImpl implements ExcelService {
 	private ExcelDao excelDao;
 	
 	@Override
-	public void save(MultipartFile file) throws IOException {
+	public void save(MultipartFile file) throws IOException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 		InputStream is = file.getInputStream();
-		List<ExcelRow> rows = ExcelUtil.getExcelRows(is);
+		List<ExcelRow> rows = ExcelUtil.getExcelRows(is, "NAV");
 		excelDao.save(rows);
 	}
 

@@ -39,7 +39,7 @@
     <div class="row">
         <div class="form_bg">
            <form:form name='loginForm' id="loginForm" action="../j_spring_security_check" method='POST'>
-                <center> <img src="../img/profile.png" style="width:60px;height:60px;"></center><br/>
+                <center> <img src="../img/profile.gif" style="width:60px;height:60px;"></center><br/>
                 <div class="form-group ">
                   <input id="j_username" name="j_username" required type="text" class="form-control " style="height:12%;font-size:12px" placeholder="Username" autocomplete="on" autofocus="autofocus" >
                   

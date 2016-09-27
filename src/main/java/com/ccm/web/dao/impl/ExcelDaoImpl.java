@@ -32,7 +32,7 @@ public class ExcelDaoImpl implements ExcelDao {
 					ExcelRow row = rows.get(i);
 					ps.setString(1, row.getClientId());
 					ps.setString(2, row.getClientName());
-					ps.setString(3, row.getClientDetails());
+					//ps.setString(3, row.getClientDetails());
 				}
 
 				public int getBatchSize() {
