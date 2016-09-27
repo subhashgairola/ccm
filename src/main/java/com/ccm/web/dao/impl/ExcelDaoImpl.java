@@ -24,7 +24,7 @@ public class ExcelDaoImpl implements ExcelDao {
 	private JdbcTemplate jdbcTemplate;
 
 	@Override
-	public void save(final List<ExcelRow> rows, String sourceSystem) {
+	public void save(List<ExcelRow> rows, String sourceSystem) {
 		String sql = "INSERT INTO customerdetail "
 				+ "(clientId, clientName, password, email, mobileNum, birthDate, gender, creationDate, ipAddress, country, city, insertedDate, updateDate, updatedBy, sourceSystem)"
 				+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
