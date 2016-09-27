@@ -61,6 +61,7 @@ public class ExcelUtil {
 			if(HSSFDateUtil.isCellDateFormatted(cell)){
 				return DateUtil.getJavaDate(cell.getNumericCellValue());
 			} else{
+				cell.setCellType(Cell.CELL_TYPE_STRING);
 				return cell.getStringCellValue();
 			}
 		}
