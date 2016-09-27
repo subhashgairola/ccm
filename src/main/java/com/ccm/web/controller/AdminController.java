@@ -39,7 +39,6 @@ public class AdminController {
 				model.addAttribute("success","You successfully uploaded file " + file.getOriginalFilename());
 			} catch (Exception e) {
 				 model.addAttribute("error","Error while uploading file " + file.getOriginalFilename());
-				 return "adminPage";
 			}
 		} else {
 			 model.addAttribute("error", "You failed to upload " + file.getOriginalFilename()
