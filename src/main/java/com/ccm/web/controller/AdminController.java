@@ -3,11 +3,11 @@ package com.ccm.web.controller;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ccm.web.service.ExcelService;
@@ -32,17 +32,18 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "/admin/upload", method = RequestMethod.POST)
-	public @ResponseBody String uploadFileHandler(@RequestParam("file") MultipartFile file, @RequestParam("sourceType") String sourceType) {
+	public  String uploadFileHandler(@RequestParam("file") MultipartFile file, @RequestParam("sourceType") String sourceType,Model model) {
 		if (!file.isEmpty()) {
 			try {
 				excelService.save(file, sourceType);
-				return "You successfully uploaded file=" + file.getName();
+				model.addAttribute("success","You successfully uploaded file " + file.getOriginalFilename());
 			} catch (Exception e) {
-				return "You failed to upload " + file.getName() + " => " + e.getMessage();
+				 model.addAttribute("error","Error while uploading file " + file.getOriginalFilename());
 			}
 		} else {
-			return "You failed to upload " + file.getName()
-					+ " because the file was empty.";
+			 model.addAttribute("error", "You failed to upload " + file.getOriginalFilename()
+					+ " because the file was empty.");
 		}
+		return "adminPage";
 	}
 }

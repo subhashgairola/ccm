@@ -35,12 +35,17 @@ public class ExcelUtil {
 		APSISmap.put(3, "creationDate");
 		columnMapping.put(Constants.APSIS_SOURCE_TYPE, APSISmap);
 
+		Map<Integer, String> ZendexMap = new HashMap<Integer, String>();
+		ZendexMap.put(0, "clientId");
+		ZendexMap.put(1, "clientName");
+		ZendexMap.put(2, "email");
+		ZendexMap.put(3, "phoneNo");
+		ZendexMap.put(4, "creationDate");
+		ZendexMap.put(5, "lastLoginDate");
+		
+		columnMapping.put(Constants.ZENDESK_SOURCE_TYPE, ZendexMap);
+
 		/*
-		 * Map<Integer, String> MagentoMap = new HashMap<Integer, String>();
-		 * MagentoMap.put(0, "clientId"); MagentoMap.put(1, "clientName");
-		 * MagentoMap.put(2, "mobileNum");
-		 * columnMapping.put(Constants.APSIS_SOURCE_TYPE, NAVMap);
-		 * 
 		 * Map<Integer, String> navMap = new HashMap<Integer, String>();
 		 * navMap.put(0, "clientId"); navMap.put(1, "clientName"); navMap.put(2,
 		 * "mobileNum"); columnMapping.put(Constants.APSIS_SOURCE_TYPE, NAVMap);
@@ -58,9 +63,9 @@ public class ExcelUtil {
 		case Cell.CELL_TYPE_BOOLEAN:
 			return cell.getBooleanCellValue();
 		case Cell.CELL_TYPE_NUMERIC:
-			if(HSSFDateUtil.isCellDateFormatted(cell)){
+			if (HSSFDateUtil.isCellDateFormatted(cell)) {
 				return DateUtil.getJavaDate(cell.getNumericCellValue());
-			} else{
+			} else {
 				cell.setCellType(Cell.CELL_TYPE_STRING);
 				return cell.getStringCellValue();
 			}
@@ -84,13 +89,17 @@ public class ExcelUtil {
 
 			while (cellIterator.hasNext()) {
 				Cell nextCell = cellIterator.next();
-				//nextCell.setCellType(Cell.CELL_TYPE_STRING);
+				// nextCell.setCellType(Cell.CELL_TYPE_STRING);
 				int columnIndex = nextCell.getColumnIndex();
 				for (int i = 0; i < totalColumns; i++) {
 					if (i == columnIndex) {
+						try{
 						PropertyUtils.setProperty(aBook,
 								columnMapping.get(sourceType).get(columnIndex),
 								getCellValue(nextCell));
+						}catch(IllegalAccessException|NoSuchMethodException|InvocationTargetException e){
+							e.printStackTrace();
+						}
 						break;
 					}
 				}
