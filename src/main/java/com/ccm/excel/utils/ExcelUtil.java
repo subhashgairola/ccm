@@ -23,27 +23,51 @@ public class ExcelUtil {
 	static {
 		columnMapping = new HashMap<String, Map<Integer, String>>();
 		Map<Integer, String> NAVMap = new HashMap<Integer, String>();
-		NAVMap.put(0, "clientId");
-		NAVMap.put(1, "clientName");
-		NAVMap.put(2, "mobileNum");
+		NAVMap.put(0, Constants.COL_CLIENT_ID);
+		NAVMap.put(1, Constants.COL_CLIENT_NAME);
+		NAVMap.put(2, Constants.COL_MOBILE_NUM);
 		columnMapping.put(Constants.NAV_SOURCE_TYPE, NAVMap);
 
 		Map<Integer, String> APSISmap = new HashMap<Integer, String>();
-		APSISmap.put(0, "clientId");
-		APSISmap.put(1, "clientName");
-		APSISmap.put(2, "email");
-		APSISmap.put(3, "creationDate");
+		APSISmap.put(0, Constants.COL_CLIENT_ID);
+		APSISmap.put(1, Constants.COL_CLIENT_NAME);
+		APSISmap.put(2, Constants.COL_EMAIL);
+		APSISmap.put(3, Constants.COL_CREATION_DATE);
 		columnMapping.put(Constants.APSIS_SOURCE_TYPE, APSISmap);
 
 		Map<Integer, String> ZendexMap = new HashMap<Integer, String>();
-		ZendexMap.put(0, "clientId");
-		ZendexMap.put(1, "clientName");
-		ZendexMap.put(2, "email");
-		ZendexMap.put(3, "phoneNo");
-		ZendexMap.put(4, "creationDate");
-		ZendexMap.put(5, "lastLoginDate");
-		
+		ZendexMap.put(0, Constants.COL_CLIENT_ID);
+		ZendexMap.put(1, Constants.COL_CLIENT_NAME);
+		ZendexMap.put(2, Constants.COL_EMAIL);
+		ZendexMap.put(3, Constants.COL_PHONE_NO);
+		ZendexMap.put(4, Constants.COL_CREATION_DATE);
+		ZendexMap.put(5, Constants.COL_LAST_LOGIN_DATE);
 		columnMapping.put(Constants.ZENDESK_SOURCE_TYPE, ZendexMap);
+		
+		Map<Integer, String> magentoMap = new HashMap<Integer, String>();
+		magentoMap.put(0, Constants.COL_CLIENT_ID);
+		magentoMap.put(1, Constants.COL_CLIENT_NAME);
+		magentoMap.put(2, Constants.COL_MOBILE_NUM);
+		magentoMap.put(3, Constants.COL_PHONE_NO);
+		magentoMap.put(4, Constants.COL_ZIP);
+		magentoMap.put(5, Constants.COL_COUNTRY);
+		magentoMap.put(6, Constants.COL_CREATION_DATE);
+		
+		columnMapping.put(Constants.MAGENTO_SOURCE_TYPE, magentoMap);
+		
+		Map<Integer, String> reederIDMap = new HashMap<Integer, String>();
+		reederIDMap.put(0, Constants.COL_CLIENT_ID);
+		reederIDMap.put(1, Constants.COL_CLIENT_NAME);
+		reederIDMap.put(2, Constants.COL_GENDER);
+		reederIDMap.put(3, Constants.COL_EMAIL);
+		reederIDMap.put(4, Constants.COL_PASSWORD);
+		reederIDMap.put(5, Constants.COL_MOBILE_NUM);
+		reederIDMap.put(6, Constants.COL_BIRTH_DATE);
+		reederIDMap.put(7, Constants.COL_IP_ADDRESS);
+		reederIDMap.put(8, Constants.COL_LOCATION);
+		reederIDMap.put(9, Constants.COL_CREATION_DATE);
+		
+		columnMapping.put(Constants.REEDERID_SOURCE_TYPE, reederIDMap);
 
 		/*
 		 * Map<Integer, String> navMap = new HashMap<Integer, String>();

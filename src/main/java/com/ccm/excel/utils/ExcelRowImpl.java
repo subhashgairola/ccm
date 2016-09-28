@@ -19,12 +19,22 @@ public class ExcelRowImpl implements ExcelRow {
 	private Timestamp updateDate;
 	private int updatedBy;
 	private String sourceSystem;
+	private String zip;
+	private String phoneNum;
+	private String location;
 
 	public ExcelRowImpl() {
 	}
 
 	public String getClientId() {
 		return clientId;
+	}
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
 	public void setClientId(String clientId) {
@@ -143,6 +153,21 @@ public class ExcelRowImpl implements ExcelRow {
 		this.sourceSystem = sourceSystem;
 	}
 
+	public String getZip() {
+		return zip;
+	}
+
+	public void setZip(String zip) {
+		this.zip = zip;
+	}
+	public String getPhoneNum() {
+		return phoneNum;
+	}
+
+	public void setPhoneNum(String phoneNum) {
+		this.phoneNum = phoneNum;
+	}
+
 	@Override
 	public String toString() {
 		return "ExcelRowImpl [clientId=" + clientId + ", clientName="
@@ -152,6 +177,7 @@ public class ExcelRowImpl implements ExcelRow {
 				+ ", ipAddress=" + ipAddress + ", country=" + country
 				+ ", city=" + city + ", insertedDate=" + insertedDate
 				+ ", updateDate=" + updateDate + ", updatedBy=" + updatedBy
-				+ ", sourceSystem=" + sourceSystem + "]";
+				+ ", sourceSystem=" + sourceSystem + ", zip=" + zip
+				+ ", phoneNum=" + phoneNum + "]";
 	}
 }

@@ -26,8 +26,9 @@ public class ExcelDaoImpl implements ExcelDao {
 	@Override
 	public void save(List<ExcelRow> rows, String sourceSystem) {
 		String sql = "INSERT INTO customerdetail "
-				+ "(clientId, clientName, password, email, mobileNum, birthDate, gender, creationDate, ipAddress, country, city, insertedDate, updateDate, updatedBy, sourceSystem)"
-				+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				+ "(clientId, clientName, password, email, mobileNum, birthDate, gender, creationDate, ipAddress, country, city, insertedDate,"
+				+ " updateDate, updatedBy, sourceSystem, zip, phoneNum, location)"
+				+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 		jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
 
@@ -58,7 +59,10 @@ public class ExcelDaoImpl implements ExcelDao {
 				ps.setTimestamp(13, ts);
 				//remove this
 				ps.setInt(14, 1);
-				ps.setString(15, row.getSourceSystem());
+				ps.setString(15, sourceSystem);
+				ps.setString(16, row.getZip());
+				ps.setString(17, row.getPhoneNum());
+				ps.setString(18, row.getLocation());
 			}
 
 			public int getBatchSize() {

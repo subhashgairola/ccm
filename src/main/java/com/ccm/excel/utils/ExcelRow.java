@@ -33,5 +33,11 @@ public interface ExcelRow {
 	public String getSourceSystem();
 
 	public String getCity();
+	
+	public String getZip();
+	
+	public String getLocation();
+	
+	public String getPhoneNum();
 
 }
