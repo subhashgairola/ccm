@@ -14,9 +14,7 @@
 	
 	
 	
-	<definition name="userPage" extends="baseLayout">
-		<put-attribute name="body" value="/WEB-INF/views/user_page.jsp" />   
-	</definition>
+
 	<definition name="adminPage" extends="baseLayout">
 		<put-attribute name="body" value="/WEB-INF/views/admin_page.jsp" />   
 	</definition>

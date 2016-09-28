@@ -5,13 +5,14 @@
 <html>
 	<head>
 		<%-- <tiles:insertAttribute name="title" ignore="true" /> --%>
-		<title>JTD Spring Security 4.0.2 Login Example with mysql
-	</title>
+		<title>Customer Contact Management	</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">	
+		<link type="text/css" rel="stylesheet"	href="../css/bootstrap.min.css" />
+		
 	<style>
-		#wrapper { width: 100%; background: #E0FFFF;margin:auto; overflow: hidden; min-height: 400px; }   
-		#header { background: black; color: white; }   
-		#footer { margin-top:10px; clear: both; background: #F5F5F5;border-top: 1px solid #CCC; height: 30px; }
+		#wrapper { width: 90%; background: #FCFCFC;margin:auto; overflow: hidden; min-height: 550px; }   
+		#header { background: #F0F0F0;  color: white;  border-bottom: 1px solid #ccc;}   
+		#footer { margin-top:10px; clear: both; background: #F2F2F2;border-top: 1px solid #CCC; height: 30px; }
 	</style>
  			
 	</head>
