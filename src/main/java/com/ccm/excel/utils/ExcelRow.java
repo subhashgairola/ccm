@@ -39,5 +39,7 @@ public interface ExcelRow {
 	public String getLocation();
 	
 	public String getPhoneNum();
+	
+	public Date getLastLogin();
 
 }

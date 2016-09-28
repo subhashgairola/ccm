@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 public class ExcelRowImpl implements ExcelRow {
+	private int customerDetailId;
 	private String clientId;
 	private String clientName;
 	private String password;
@@ -22,6 +23,7 @@ public class ExcelRowImpl implements ExcelRow {
 	private String zip;
 	private String phoneNum;
 	private String location;
+	private Date lastLogin;
 
 	public ExcelRowImpl() {
 	}
@@ -168,16 +170,35 @@ public class ExcelRowImpl implements ExcelRow {
 		this.phoneNum = phoneNum;
 	}
 
+	
+	public Date getLastLogin() {
+		return lastLogin;
+	}
+
+	public void setLastLogin(Date lastLogin) {
+		this.lastLogin = lastLogin;
+	}
+
+	public int getCustomerDetailId() {
+		return customerDetailId;
+	}
+
+	public void setCustomerDetailId(int customerDetailId) {
+		this.customerDetailId = customerDetailId;
+	}
+
 	@Override
 	public String toString() {
-		return "ExcelRowImpl [clientId=" + clientId + ", clientName="
-				+ clientName + ", password=" + password + ", email=" + email
+		return "ExcelRowImpl [customerDetailId=" + customerDetailId
+				+ ", clientId=" + clientId + ", clientName=" + clientName
+				+ ", password=" + password + ", email=" + email
 				+ ", mobileNum=" + mobileNum + ", birthDate=" + birthDate
 				+ ", gender=" + gender + ", creationDate=" + creationDate
 				+ ", ipAddress=" + ipAddress + ", country=" + country
 				+ ", city=" + city + ", insertedDate=" + insertedDate
 				+ ", updateDate=" + updateDate + ", updatedBy=" + updatedBy
 				+ ", sourceSystem=" + sourceSystem + ", zip=" + zip
-				+ ", phoneNum=" + phoneNum + "]";
+				+ ", phoneNum=" + phoneNum + ", location=" + location
+				+ ", lastLogin=" + lastLogin + "]";
 	}
 }

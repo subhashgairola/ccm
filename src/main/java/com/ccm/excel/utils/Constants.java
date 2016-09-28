@@ -13,7 +13,7 @@ public class Constants {
 	public static final String COL_EMAIL = "email";
 	public static final String COL_CREATION_DATE = "creationDate";
 	public static final String COL_PHONE_NO = "phoneNum";
-	public static final String COL_LAST_LOGIN_DATE = "lastLoginDate";
+	public static final String COL_LAST_LOGIN_DATE = "lastLogin";
 	public static final String COL_GENDER = "gender";
 	public static final String COL_ZIP = "zip";
 	public static final String COL_COUNTRY = "country";
