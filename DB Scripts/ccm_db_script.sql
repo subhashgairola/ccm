@@ -18,11 +18,15 @@ CREATE TABLE  `ccm_db`.`customerdetail` (
   `updateDate` datetime DEFAULT NULL,
   `updatedBy` int(10) unsigned DEFAULT NULL,
   `sourceSystem` varchar(50) DEFAULT NULL,
+  `zip` varchar(50) DEFAULT NULL,
+  `phoneNum` varchar(50) DEFAULT NULL,
+  `location` varchar(100) DEFAULT NULL,
+  `lastLogin` datetime DEFAULT NULL,
   PRIMARY KEY (`customerDetailId`),
   KEY `customerDetailId` (`customerDetailId`),
   KEY `updatedBy` (`updatedBy`),
   CONSTRAINT `customerdetail_ibfk_1` FOREIGN KEY (`updatedBy`) REFERENCES `user` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=latin1;
 
 
 DROP TABLE IF EXISTS `ccm_db`.`role`;
