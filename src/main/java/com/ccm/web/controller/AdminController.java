@@ -11,6 +11,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ccm.excel.utils.CustomerDetail;
@@ -32,9 +33,13 @@ public class AdminController {
 	@RequestMapping("/admin/adminPage")
 	public String getAdminPage(ModelMap model) {
 		model.addAttribute("msg", "Welcome page for the Admin User!!");
-		List<CustomerDetail> customerDetails = customerService.getCustomerDetails();
-		model.put("customerDetails", customerDetails);
 		return "adminPage";
+	}
+	
+	@RequestMapping("/customers")
+	public @ResponseBody List<CustomerDetail> getCustomerDetails() {
+		List<CustomerDetail> customerDetails = customerService.getCustomerDetails();
+		return customerDetails;
 	}
 	
 	@RequestMapping(value = "/admin/upload", method = RequestMethod.POST)

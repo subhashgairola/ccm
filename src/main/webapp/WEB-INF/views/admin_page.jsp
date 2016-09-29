@@ -5,14 +5,19 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Admin Page</title>
 
+
 <script type="text/javascript" src="../js/jquery-1.4.1.min.js"></script>
-<script type="text/javascript" src="../js/jquery-1.10.2.js"></script>
+<script type="text/javascript" src="../js/jquery-1.12.3.js"></script>
+<script type="text/javascript" src="../js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="../js/bootstrap.min.js"></script>
+
 <link type="text/css" rel="stylesheet"
 	href="<c:url value="/css/bootstrap.css" />" />
 <link type="text/css" rel="stylesheet"
 	href="<c:url value="/css/bootstrap.min.css" />" />
+<link type="text/css" rel="stylesheet"
+	href="<c:url value="/css/jquery.dataTables.min.css" />" />
 
-<script type="text/javascript" src="../js/bootstrap.min.js"></script>
 <style>
 .fade {
 	opacity: 0;
@@ -23,10 +28,41 @@
 	transition: opacity 2.25s linear;
 }
 </style>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#cust-table').DataTable({
+        "processing" : true,
+        "serverSide": true,
+        "pagingType": "full_numbers",
+        "ajax" : {
+            "url" : "../customers",
+            "dataSrc" : ''
+        },
+        "columns" : [ {
+            "data" : "clientId"
+        }, {
+            "data" : "email"
+        }, {
+            "data" : "clientName"
+        }, {
+            "data" : "password"
+        },{
+            "data" : "mobileNum"
+        }, {
+            "data" : "birthDate"
+        }, {
+            "data" : "gender"
+        }, {
+            "data" : "creationDate"
+        }]
+    });
+});
+</script>
 </head>
 <body>
 
-	<div class="container" style="border: 1px solid #cecece; margin-top:10px; width: 100%">
+	<div class="container"
+		style="border: 1px solid #cecece; margin-top: 10px; width: 100%">
 		<ul class="nav nav-tabs">
 			<li class="active"><a href="#tab_a" data-toggle="tab">Imported
 					Users</a></li>
@@ -37,15 +73,34 @@
 		<div class="tab-content"
 			style="height: 100%; padding: 10px; margin: 30px;">
 			<div class="tab-pane fade in active" id="tab_a">
-				<h4>Pane A</h4>
-				<p>Pellentesque habitant morbi tristique senectus et netus et
-					malesuada fames ac turpis egestas.</p>
+				<table id="cust-table" class="display" cellspacing="0" width="100%">
+					<thead>
+						<tr>
+							<th>Client Id</th>
+							<th>Email</th>
+							<th>Full Name</th>
+							<th>Password</th>
+							<th>Mobile No.</th>
+							<th>Birthdate</th>
+							<th>Gender</th>
+							<th>Creation Date/Time</th>
+						</tr>
+					</thead>
+					<tfoot>
+						<tr>
+							<th>First name</th>
+							<th>Last name</th>
+							<th>Position</th>
+							<th>Office</th>
+						</tr>
+					</tfoot>
+				</table>
 			</div>
 			<div class="tab-pane fade" id="tab_b">
 				<form class="container" method="POST"
 					action="upload?${_csrf.parameterName}=${_csrf.token}"
 					enctype="multipart/form-data">
-					
+
 					<div class="form-group">
 						<select name="sourceType" required style="font-size: 12px">
 							<option value="" selected>Select Source</option>
@@ -58,15 +113,17 @@
 					</div>
 					<input type="file" class="btn-file" name="file"
 						style="font-size: 12px" required>
-						
-						<c:if test="${not empty error}">
-						<span style="font-size: 10px; color: #FF5733"><br> ${error}</span>
+
+					<c:if test="${not empty error}">
+						<span style="font-size: 10px; color: #FF5733"><br>
+							${error}</span>
 					</c:if>
 					<c:if test="${not empty success}">
-						<span style="font-size: 10px; color: #7FFF00"><br> ${success}</span>
+						<span style="font-size: 10px; color: #7FFF00"><br>
+							${success}</span>
 					</c:if>
 					<div class="form-group">
-					
+
 						<input type="submit" value="Upload File" class="btn-info"
 							style="font-size: 12px">
 					</div>
