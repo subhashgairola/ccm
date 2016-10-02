@@ -3,6 +3,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="_csrf" content="${_csrf.token}" />
+<meta name="_csrf_header" content="${_csrf.headerName}" />
 <title>Admin Page</title>
 
 
@@ -29,34 +31,44 @@
 }
 </style>
 <script type="text/javascript">
-$(document).ready(function() {
-    $('#cust-table').DataTable({
-        "processing" : true,
-        "serverSide": true,
-        "pagingType": "full_numbers",
-        "ajax" : {
-            "url" : "../customers",
-            "dataSrc" : ''
-        },
-        "columns" : [ {
-            "data" : "id"
-        }, {
-            "data" : "email"
-        }, {
-            "data" : "name"
-        }, {
-            "data" : "password"
-        },{
-            "data" : "mobileNum"
-        }, {
-            "data" : "birthDate"
-        }, {
-            "data" : "gender"
-        }, {
-            "data" : "creationDate"
-        }]
-    });
-});
+	$(document).ready(function() {
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+		$('#cust-table').DataTable({
+			"columnDefs" : [ {
+				"targets" : [ 0 ],
+				"visible" : false,
+			} ],
+			"pagingType" : "simple_numbers",
+			"processing" : true,
+			"serverSide" : true,
+			"ajax" : {
+				url : "../customers",
+				type : "POST",
+				data : function(data) {
+					return JSON.stringify(data);
+				},
+				"dataType" : "json",
+				"processData" : false,
+				beforeSend : function(xhr) {
+					xhr.setRequestHeader(header, token);
+				},
+				contentType : 'application/json;charset=UTF-8'
+			},
+
+			"columns" : [ {
+				"data" : "customerDetailId"
+			}, {
+				"data" : "name"
+			}, {
+				"data" : "email"
+			}, {
+				"data" : "phoneNum"
+			}, {
+				"data" : "source"
+			} ]
+		});
+	});
 </script>
 </head>
 <body>
@@ -64,9 +76,8 @@ $(document).ready(function() {
 	<div class="container"
 		style="border: 1px solid #cecece; margin-top: 10px; width: 100%">
 		<ul class="nav nav-tabs">
-			<li class="active"><a href="#tab_a" data-toggle="tab">Imported
-					Users</a></li>
-			<li><a href="#tab_b" data-toggle="tab">Upload File</a></li>
+			<li class="active"><a href="#tab_a" data-toggle="tab">Customers</a></li>
+			<li><a href="#tab_b" data-toggle="tab">Upload Customers</a></li>
 		</ul>
 		<div class="tab-content"
 			style="height: 100%; padding: 10px; margin: 30px;">
@@ -75,25 +86,19 @@ $(document).ready(function() {
 					<thead>
 						<tr>
 							<th>Id</th>
-							<th>Email</th>
 							<th>Name</th>
-							<th>Password</th>
-							<th>Mobile No.</th>
-							<th>Birthdate</th>
-							<th>Gender</th>
-							<th>Creation Date/Time</th>
+							<th>Email</th>
+							<th>Phone No.</th>
+							<th>Source</th>
 						</tr>
 					</thead>
 					<tfoot>
 						<tr>
 							<th>Id</th>
-							<th>Email</th>
 							<th>Name</th>
-							<th>Password</th>
-							<th>Mobile No.</th>
-							<th>Birthdate</th>
-							<th>Gender</th>
-							<th>Creation Date/Time</th>
+							<th>Email</th>
+							<th>Phone No.</th>
+							<th>Source</th>
 						</tr>
 					</tfoot>
 				</table>

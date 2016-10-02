@@ -32,9 +32,27 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public List<CustomerDetail> getCustomerDetails() {
-		List<CustomerDetail> customerDetails = customerDao.getCustomerDetails();
+	public List<CustomerDetail> getCustomerDetails(int offset, int limit) {
+		List<CustomerDetail> customerDetails = customerDao.getCustomerDetails(offset, limit);
 		return customerDetails;
+	}
+
+	@Override
+	public List<CustomerDetail> getCustomerDetailsWithSearchAndPage(int offset, int limit,
+			String searchStr) {
+		List<CustomerDetail> customerDetails = customerDao.getCustomerDetailsWithSearchAndPage(offset, limit, searchStr);
+		return customerDetails;
+		
+	}
+
+	@Override
+	public long getCustomerDetails(String searchStr) {
+		return customerDao.getCustomerDetails(searchStr);
+	}
+
+	@Override
+	public long getTotalRecords() {
+		return customerDao.getTotalRecords();
 	}
 
 }
