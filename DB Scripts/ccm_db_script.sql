@@ -25,8 +25,8 @@ CREATE TABLE  `ccm_db`.`user` (
 DROP TABLE IF EXISTS `ccm_db`.`customerdetail`;
 CREATE TABLE  `ccm_db`.`customerdetail` (
   `customerDetailId` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `clientId` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `clientName` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `id` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `name` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `password` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `email` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `mobileNum` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -39,7 +39,7 @@ CREATE TABLE  `ccm_db`.`customerdetail` (
   `insertedDate` datetime DEFAULT NULL,
   `updateDate` datetime DEFAULT NULL,
   `updatedBy` int(10) unsigned DEFAULT NULL,
-  `sourceSystem` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `source` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `zip` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `phoneNum` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `location` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -48,4 +48,4 @@ CREATE TABLE  `ccm_db`.`customerdetail` (
   KEY `customerDetailId` (`customerDetailId`),
   KEY `updatedBy` (`updatedBy`),
   CONSTRAINT `customerdetail_ibfk_1` FOREIGN KEY (`updatedBy`) REFERENCES `user` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=153 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
