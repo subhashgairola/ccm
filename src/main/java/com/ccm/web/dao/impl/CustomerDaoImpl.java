@@ -40,8 +40,8 @@ public class CustomerDaoImpl implements CustomerDao {
 						while (rs.next()) {
 							custDetail = new CustomerDetail();
 							custDetail.setCustomerDetailId(rs.getInt(1));
-							custDetail.setClientId(rs.getString(2));
-							custDetail.setClientName(rs.getString(3));
+							custDetail.setId(rs.getString(2));
+							custDetail.setName(rs.getString(3));
 							custDetail.setPassword(rs.getString(4));
 							custDetail.setEmail(rs.getString(5));
 							custDetail.setMobileNum(rs.getString(6));
@@ -54,7 +54,7 @@ public class CustomerDaoImpl implements CustomerDao {
 							custDetail.setInsertedDate(rs.getTimestamp(13));
 							custDetail.setUpdateDate(rs.getTimestamp(14));
 							custDetail.setUpdatedBy(rs.getInt(15));
-							custDetail.setSourceSystem(rs.getString(16));
+							custDetail.setSource(rs.getString(16));
 							custDetail.setZip(rs.getString(17));
 							custDetail.setPhoneNum(rs.getString(18));
 							custDetail.setLocation(rs.getString(19));
@@ -78,8 +78,8 @@ public class CustomerDaoImpl implements CustomerDao {
 			public void setValues(PreparedStatement ps, int i)
 					throws SQLException {
 				ExcelRow row = rows.get(i);
-				ps.setString(1, row.getClientId());
-				ps.setString(2, row.getClientName());
+				ps.setString(1, row.getId());
+				ps.setString(2, row.getName());
 				ps.setString(3, row.getPassword());
 				ps.setString(4, row.getEmail());
 				ps.setString(5, row.getMobileNum());
@@ -101,9 +101,9 @@ public class CustomerDaoImpl implements CustomerDao {
 				Timestamp ts = getTimestamp(null);
 				ps.setTimestamp(12, ts);
 				ps.setTimestamp(13, ts);
-				// remove this
+				// Replace this from the value from spring security context
 				ps.setInt(14, 1);
-				ps.setString(15, sourceSystem);
+				ps.setString(15, row.getSource());
 				ps.setString(16, row.getZip());
 				ps.setString(17, row.getPhoneNum());
 				ps.setString(18, row.getLocation());

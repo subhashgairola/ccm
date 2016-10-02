@@ -49,6 +49,7 @@ public class AdminController {
 				customerService.save(file, sourceType);
 				model.addAttribute("success","You successfully uploaded file " + file.getOriginalFilename());
 			} catch (Exception e) {
+				e.printStackTrace();
 				 model.addAttribute("error","Error while uploading file " + file.getOriginalFilename());
 			}
 		} else {

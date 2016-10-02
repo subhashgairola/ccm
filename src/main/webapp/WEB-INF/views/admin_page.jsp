@@ -39,11 +39,11 @@ $(document).ready(function() {
             "dataSrc" : ''
         },
         "columns" : [ {
-            "data" : "clientId"
+            "data" : "id"
         }, {
             "data" : "email"
         }, {
-            "data" : "clientName"
+            "data" : "name"
         }, {
             "data" : "password"
         },{
@@ -74,9 +74,9 @@ $(document).ready(function() {
 				<table id="cust-table" class="display" cellspacing="0" width="100%">
 					<thead>
 						<tr>
-							<th>Client Id</th>
+							<th>Id</th>
 							<th>Email</th>
-							<th>Full Name</th>
+							<th>Name</th>
 							<th>Password</th>
 							<th>Mobile No.</th>
 							<th>Birthdate</th>
@@ -86,10 +86,14 @@ $(document).ready(function() {
 					</thead>
 					<tfoot>
 						<tr>
-							<th>First name</th>
-							<th>Last name</th>
-							<th>Position</th>
-							<th>Office</th>
+							<th>Id</th>
+							<th>Email</th>
+							<th>Name</th>
+							<th>Password</th>
+							<th>Mobile No.</th>
+							<th>Birthdate</th>
+							<th>Gender</th>
+							<th>Creation Date/Time</th>
 						</tr>
 					</tfoot>
 				</table>

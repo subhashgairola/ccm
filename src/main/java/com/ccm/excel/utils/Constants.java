@@ -1,5 +1,8 @@
 package com.ccm.excel.utils;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Constants {
 	public static final String NAV_SOURCE_TYPE = "NAV";
 	public static final String APSIS_SOURCE_TYPE = "APSIS";
@@ -7,8 +10,9 @@ public class Constants {
 	public static final String MAGENTO_SOURCE_TYPE = "Magento";
 	public static final String REEDERID_SOURCE_TYPE = "ReederID";
 	
-	public static final String COL_CLIENT_ID = "clientId";
-	public static final String COL_CLIENT_NAME = "clientName";
+	public static final String SOURCE = "source";
+	public static final String COL_ID = "id";
+	public static final String COL_NAME = "name";
 	public static final String COL_MOBILE_NUM = "mobileNum";
 	public static final String COL_EMAIL = "email";
 	public static final String COL_CREATION_DATE = "creationDate";
@@ -21,4 +25,6 @@ public class Constants {
 	public static final String COL_BIRTH_DATE = "birthDate";
 	public static final String COL_IP_ADDRESS = "ipAddress";
 	public static final String COL_LOCATION = "location";
+	
+		
 }

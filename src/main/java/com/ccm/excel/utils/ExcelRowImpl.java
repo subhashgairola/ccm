@@ -5,10 +5,13 @@ import java.util.Date;
 
 public class ExcelRowImpl implements ExcelRow {
 	private int customerDetailId;
-	private String clientId;
-	private String clientName;
+	private String source;
+	private String id;
+	private String name;
 	private String password;
 	private String email;
+	private String jobTitle;
+	private String company;
 	private String mobileNum;
 	private String birthDate;
 	private String gender;
@@ -16,20 +19,32 @@ public class ExcelRowImpl implements ExcelRow {
 	private String ipAddress;
 	private String country;
 	private String city;
-	private Timestamp insertedDate;
-	private Timestamp updateDate;
 	private int updatedBy;
-	private String sourceSystem;
 	private String zip;
 	private String phoneNum;
 	private String location;
 	private Date lastLogin;
+	
+	private Timestamp insertedDate;
+	private Timestamp updateDate;
 
 	public ExcelRowImpl() {
 	}
 
-	public String getClientId() {
-		return clientId;
+	public String getSource() {
+		return source;
+	}
+
+
+
+	public void setSource(String source) {
+		this.source = source;
+	}
+
+
+
+	public String getId() {
+		return id;
 	}
 	public String getLocation() {
 		return location;
@@ -39,16 +54,16 @@ public class ExcelRowImpl implements ExcelRow {
 		this.location = location;
 	}
 
-	public void setClientId(String clientId) {
-		this.clientId = clientId;
+	public void setId(String id) {
+		this.id = id;
 	}
 
-	public String getClientName() {
-		return clientName;
+	public String getName() {
+		return name;
 	}
 
-	public void setClientName(String clientName) {
-		this.clientName = clientName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getPassword() {
@@ -147,14 +162,6 @@ public class ExcelRowImpl implements ExcelRow {
 		this.updatedBy = updatedBy;
 	}
 
-	public String getSourceSystem() {
-		return sourceSystem;
-	}
-
-	public void setSourceSystem(String sourceSystem) {
-		this.sourceSystem = sourceSystem;
-	}
-
 	public String getZip() {
 		return zip;
 	}
@@ -187,18 +194,35 @@ public class ExcelRowImpl implements ExcelRow {
 		this.customerDetailId = customerDetailId;
 	}
 
+	public String getJobTitle() {
+		return jobTitle;
+	}
+
+	public void setJobTitle(String jobTitle) {
+		this.jobTitle = jobTitle;
+	}
+
+	public String getCompany() {
+		return company;
+	}
+
+	public void setCompany(String company) {
+		this.company = company;
+	}
+
 	@Override
 	public String toString() {
 		return "ExcelRowImpl [customerDetailId=" + customerDetailId
-				+ ", clientId=" + clientId + ", clientName=" + clientName
-				+ ", password=" + password + ", email=" + email
+				+ ", source=" + source + ", id=" + id + ", name="
+				+ name + ", password=" + password + ", email=" + email
 				+ ", mobileNum=" + mobileNum + ", birthDate=" + birthDate
 				+ ", gender=" + gender + ", creationDate=" + creationDate
 				+ ", ipAddress=" + ipAddress + ", country=" + country
 				+ ", city=" + city + ", insertedDate=" + insertedDate
 				+ ", updateDate=" + updateDate + ", updatedBy=" + updatedBy
-				+ ", sourceSystem=" + sourceSystem + ", zip=" + zip
+				+ ", zip=" + zip
 				+ ", phoneNum=" + phoneNum + ", location=" + location
-				+ ", lastLogin=" + lastLogin + "]";
+				+ ", lastLogin=" + lastLogin + ", jobTitle=" + jobTitle
+				+ ", company=" + company + "]";
 	}
 }
