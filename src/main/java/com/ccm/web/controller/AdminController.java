@@ -46,36 +46,26 @@ public class AdminController {
 		List<CustomerDetail> customerDetails = null;
 		long totalFilteredRecords = 0;
 		long totalRecords = 0;
-		if (dataTablesRequest == null || dataTablesRequest.getDraw() == 1) {
-			int offset = 0;
-			int limit = 10;
+		int offset = dataTablesRequest.getStart();
+		int limit = dataTablesRequest.getLength();
+		Search search = dataTablesRequest.getSearch();
+		String searchStr = search.getValue();
+		totalRecords = customerService.getTotalRecords();
+
+		if (searchStr.equals("")) {
 			customerDetails = customerService.getCustomerDetails(offset, limit);
-			totalRecords = customerService.getTotalRecords();
-			// Show first 10 rows:
-			return new DataTablesResponse<Element>(dataTablesRequest.getDraw(),
-					totalRecords, totalRecords, "", customerDetails);
+			totalFilteredRecords = customerService.getTotalRecords();
 		} else {
-			int offset = dataTablesRequest.getStart();
-			int limit = dataTablesRequest.getLength();
-			Search search = dataTablesRequest.getSearch();
-			String searchStr = search.getValue();
-			totalRecords = customerService.getTotalRecords();
-
-			if (searchStr.equals("")) {
-				customerDetails = customerService.getCustomerDetails(offset,
-						limit);
-				totalFilteredRecords = customerService.getTotalRecords();
-			} else {
-				totalFilteredRecords = customerService
-						.getCustomerDetails(searchStr);
-				customerDetails = customerService
-						.getCustomerDetailsWithSearchAndPage(offset, limit,
-								searchStr);
-			}
-
-			return new DataTablesResponse<Element>(dataTablesRequest.getDraw(),
-					totalRecords, totalFilteredRecords, "", customerDetails);
+			totalFilteredRecords = customerService
+					.getCustomerDetails(searchStr);
+			customerDetails = customerService
+					.getCustomerDetailsWithSearchAndPage(offset, limit,
+							searchStr);
 		}
+
+		return new DataTablesResponse<Element>(dataTablesRequest.getDraw(),
+				totalRecords, totalFilteredRecords, "", customerDetails);
+
 	}
 
 	@RequestMapping(value = "/admin/upload", method = RequestMethod.POST)
