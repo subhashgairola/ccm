@@ -8,6 +8,7 @@ import javax.lang.model.element.Element;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -37,6 +38,14 @@ public class AdminController {
 	public String getAdminPage(ModelMap model) {
 		model.addAttribute("msg", "Welcome page for the Admin User!!");
 		return "adminPage";
+	}
+	
+	@RequestMapping(value = "/customer/{customerDetailId}", method = RequestMethod.PUT)
+	@ResponseBody
+	public CustomerDetail updateCustomer(@RequestBody(required = false) CustomerDetail customerDetail, @PathVariable int customerDetailId) {
+		System.out.println(customerDetail +" -------- " + customerDetailId);
+		return null;
+
 	}
 
 	@RequestMapping(value = "/customers", method = RequestMethod.POST)
