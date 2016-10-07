@@ -8,7 +8,6 @@
 <title>Admin Page</title>
 
 
-<script type="text/javascript" src="../js/jquery-1.4.1.min.js"></script>
 <script type="text/javascript" src="../js/jquery-1.12.3.js"></script>
 <script type="text/javascript" src="../js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="../js/bootstrap.min.js"></script>
@@ -43,12 +42,12 @@
 			}, {
 				"targets" : [ 5 ],
 				"data" : null,
-				"defaultContent" : "<button>View</button>"
+				"defaultContent" : "<button>View</button>&nbsp;&nbsp;<button>Edit</button>"
 			}/* , {
 				"targets" : [ 6 ],
 				"data" : null,
 				"defaultContent" : "<button>Edit</button>"
-			}  */],
+			} */],
 			"pagingType" : "simple_numbers",
 			"processing" : true,
 			"serverSide" : true,
@@ -105,8 +104,11 @@
 	            // Show the dialog
 	            bootbox
 	                .dialog({
-	                    title: 'View Customer',
+	                    title: 'Edit Customer',
 	                    message: $('#userForm'),
+	                    width: 900,
+	                    height: 1000,
+	                    modal: true,
 	                    show: false // We will show it manually later
 	                })
 	                .on('shown.bs.modal', function() {
@@ -175,12 +177,11 @@
 					<thead>
 						<tr>
 							<th>Id</th>
-							<th>Name</th>
-							<th>Email</th>
-							<th>Phone No.</th>
-							<th>Source</th>
-							<th>View</th>
-							<!-- <th>Edit</th> -->
+							<th width="33%;" >Name</th>
+							<th width="25%;">Email</th>
+							<th width="20%;">Phone No.</th>
+							<th width="10%;">Source</th>
+							<th width="12%;">&nbsp;</th>
 							
 						</tr>
 					</thead>
@@ -191,150 +192,18 @@
 							<th>Email</th>
 							<th>Phone No.</th>
 							<th>Source</th>
-							<th>View</th>
-							<!-- <th>Edit</th> -->
+							<th></th>
 						</tr>
 					</tfoot>
 				</table>
 			</div>
 			<!-- The form which is used to populate the item data -->
-			<form id="userForm" method="post" style="display: none;">
-				<div class="form-group">
-					<label class="col-xs-3 control-label">ID</label>
-					<div class="col-xs-3">
-						<input type="text" class="form-control" name="id"
-							disabled="disabled" />
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-xs-3 control-label">Name</label>
-					<div class="col-xs-5">
-						<input type="text" class="form-control" name="name" />
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label class="col-xs-3 control-label">Email</label>
-					<div class="col-xs-5">
-						<input type="text" class="form-control" name="email" />
-					</div>
-				</div>
-				
-				<div class="form-group">
-					<label class="col-xs-3 control-label">Password</label>
-					<div class="col-xs-5">
-						<input type="text" class="form-control" name="password" />
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label class="col-xs-3 control-label">Phone No.</label>
-					<div class="col-xs-5">
-						<input type="text" class="form-control" name="phoneNum" />
-					</div>
-				</div>
-				
-				<div class="form-group">
-					<label class="col-xs-3 control-label">Birthdate</label>
-					<div class="col-xs-5">
-						<input type="text" class="form-control" name="birthDate" />
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label class="col-xs-3 control-label">Gender</label>
-					<div class="col-xs-5">
-						<input type="text" class="form-control" name="gender" />
-					</div>
-				</div>
-				
-				<div class="form-group">
-					<label class="col-xs-3 control-label">Creation Date</label>
-					<div class="col-xs-5">
-						<input type="text" class="form-control" name="creationDate" />
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label class="col-xs-3 control-label">Last Login date</label>
-					<div class="col-xs-5">
-						<input type="text" class="form-control" name="lastLogin" />
-					</div>
-				</div>
-				
-				<div class="form-group">
-					<label class="col-xs-3 control-label">IP Address</label>
-					<div class="col-xs-5">
-						<input type="text" class="form-control" name="ipAddress" />
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label class="col-xs-3 control-label">Country</label>
-					<div class="col-xs-5">
-						<input type="text" class="form-control" name="country" />
-					</div>
-				</div>
-				
-				<div class="form-group">
-					<label class="col-xs-3 control-label">City</label>
-					<div class="col-xs-5">
-						<input type="text" class="form-control" name="city" />
-					</div>
-				</div>
-				
-				<div class="form-group">
-					<label class="col-xs-3 control-label">Zip</label>
-					<div class="col-xs-5">
-						<input type="text" class="form-control" name="zip" />
-					</div>
-				</div>
-
-				<!-- <div class="form-group">
-					<div class="col-xs-5 col-xs-offset-3">
-						<button id="saveBtn" type="button" class="btn btn-default">Save</button>
-					</div>
-				</div> -->
-					<input type="hidden" name="${_csrf.parameterName}"
-						value="${_csrf.token}" />
-			</form>
-
+			<jsp:include page="view_customer.jsp"/>
+			
 
 			<div class="tab-pane fade" id="tab_b">
-				<form class="container" method="POST"
-					action="upload?${_csrf.parameterName}=${_csrf.token}"
-					enctype="multipart/form-data">
-
-					<div class="form-group">
-						<select name="sourceType" required style="font-size: 12px">
-							<option value="" selected>Select Source</option>
-							<option value="APSIS">APSIS</option>
-							<option value="NAV">NAV</option>
-							<option value="Magento">Magento</option>
-							<option value="ReederID">ReederID</option>
-							<option value="Zendesk">Zendesk</option>
-						</select>
-					</div>
-					<input type="file" class="btn-file" name="file"
-						style="font-size: 12px" required>
-
-					<c:if test="${not empty error}">
-						<span style="font-size: 10px; color: #FF5733"><br>
-							${error}</span>
-					</c:if>
-					<c:if test="${not empty success}">
-						<span style="font-size: 10px; color: #7FFF00"><br>
-							${success}</span>
-					</c:if>
-					<div class="form-group">
-
-						<input type="submit" value="Upload File" class="btn-info"
-							style="font-size: 12px">
-					</div>
-
-					<input type="hidden" name="${_csrf.parameterName}"
-						value="${_csrf.token}" />
-				</form>
+			<jsp:include page="upload_customer.jsp"/>
+			
 			</div>
 		</div>
 		<!-- tab content -->
