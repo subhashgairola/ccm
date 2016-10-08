@@ -16,4 +16,5 @@ public interface CustomerService {
 			String searchStr);
 	long getCustomerDetails(String searchStr);
 	long getTotalRecords();
+	void save(CustomerDetail customerDetail);
 }

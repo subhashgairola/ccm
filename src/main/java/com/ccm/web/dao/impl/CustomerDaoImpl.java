@@ -168,7 +168,7 @@ public class CustomerDaoImpl implements CustomerDao {
 				ps.setString(16, row.getZip());
 				ps.setString(17, row.getPhoneNum());
 				ps.setString(18, row.getLocation());
-				if (row.getBirthDate() == null) {
+				if (row.getLastLogin() == null) {
 					ps.setNull(19, java.sql.Types.TIMESTAMP);
 				} else {
 					ps.setTimestamp(19, new java.sql.Timestamp(row.getLastLogin().getTime()));
@@ -209,6 +209,18 @@ public class CustomerDaoImpl implements CustomerDao {
 			}
 		}
 		return new java.sql.Timestamp(date.getTime());
+	}
+
+	@Override
+	public void save(CustomerDetail customerDetail) {
+		String sql = "UPDATE customerdetail SET name = ?, password = ?, email = ?, phoneNum = ?, birthDate= ?, gender = ?, ipAddress = ?, country = ?, city = ?, "
+				+ " updateDate = ?, zip = ? WHERE customerDetailId = ?";
+		Date birthDate = null;
+		if (customerDetail.getBirthDate() != null && !customerDetail.getBirthDate().equals("")) {
+			birthDate = getDate(customerDetail.getBirthDate());
+		} 
+		jdbcTemplate.update(sql, new Object[]{customerDetail.getName(), customerDetail.getPassword(), customerDetail.getEmail(), customerDetail.getPhoneNum(), birthDate,
+				customerDetail.getGender(), customerDetail.getIpAddress(), customerDetail.getCountry(),customerDetail.getCity(), getTimestamp(null), customerDetail.getZip(), customerDetail.getCustomerDetailId()});
 	}
 
 }

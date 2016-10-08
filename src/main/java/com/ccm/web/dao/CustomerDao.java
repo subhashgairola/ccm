@@ -13,5 +13,6 @@ public interface CustomerDao {
 			int limit, String searchStr);
 	long getCustomerDetails(String searchStr);
 	long getTotalRecords();
+	void save(CustomerDetail customerDetail);
 
 }

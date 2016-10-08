@@ -30,13 +30,13 @@
 					<td class="col-padding">Gender</td>
 					<td><input type="text" style="height:30px;" name="gender" /></td>
 					<td class="col-padding">Creation Date</td>
-					<td><input type="text" style="height:30px;" name="creationDate" />
+					<td><input type="text" style="height:30px;" readonly="readonly" name="creationDate" />
 					</td>
 				</tr>
 
 				<tr>
 					<td class="col-padding">Last Login date</td>
-					<td><input type="text" style="height:30px;" name="lastLogin" />
+					<td><input type="text" style="height:30px;" readonly="readonly"  name="lastLogin" />
 					</td>
 					<td class="col-padding">IP Address</td>
 					<td><input type="text" style="height:30px;" name="ipAddress" />
@@ -54,17 +54,24 @@
 					<td></td>
 					<td></td>
 				</tr>
-				<!-- <tr>
+				<tr>
 					<td class="col-padding">
 						<button id="saveBtn" name="saveBtn" onclick="save(); return false;" type="button"
-							class="btn btn-default">Save</button>
+							class="btn btn-info">Save</button>
 					</td>
 					<td></td>
 					<td></td>
 					<td></td>
-				</tr> -->
+				</tr>
 			</tbody>
 		</table>
+		<input type="hidden" name="customerDetailId" />
+		<input type="hidden" name="source" />
+		<input type="hidden" name="jobTitle" />
+		<input type="hidden" name="company" />
+		<input type="hidden" name="mobileNum" />
+		<input type="hidden" name="updatedBy" />
+		<input type="hidden" name="location" />
 		<input type="hidden" name="${_csrf.parameterName}"
 			value="${_csrf.token}" />
 	</form>

@@ -43,8 +43,8 @@ public class AdminController {
 	@RequestMapping(value = "/customer", method = RequestMethod.POST)
 	@ResponseBody
 	public CustomerDetail updateCustomer(@RequestBody(required = false) CustomerDetail customerDetail) {
-		System.out.println(customerDetail +" -------- ");
-		return null;
+		customerService.save(customerDetail);
+		return customerDetail;
 
 	}
 

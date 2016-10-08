@@ -40,7 +40,7 @@
 			}, {
 				"targets" : [ 5 ],
 				"data" : null,
-				"defaultContent" : "&nbsp;&nbsp;&nbsp;&nbsp;<button>View</button>&nbsp;&nbsp;"//<button>Edit</button>"
+				"defaultContent" : "<button>View</button>&nbsp;&nbsp;<button>Edit</button>"
 			}/* , {
 				"targets" : [ 6 ],
 				"data" : null,
@@ -83,21 +83,27 @@
 	        var id = $(this).attr('data-id');
 	            // Populate the form fields with the data returned from server
 	            $('#userForm')
+	                .find('[name="customerDetailId"]').val(data.customerDetailId).end()
+	                .find('[name="source"]').val(data.source).end()
 	                .find('[name="id"]').val(data.id).end()
 	                .find('[name="name"]').val(data.name).end()
+	                .find('[name="password"]').val(data.password).end() 
 	                .find('[name="email"]').val(data.email).end()
-	                .find('[name="password"]').val(data.password).end()
+	                .find('[name="jobTitle"]').val(data.jobTitle).end() 
+	                .find('[name="company"]').val(data.company).end()
 	                .find('[name="mobileNum"]').val(data.mobileNum).end()
-	                .find('[name="phoneNum"]').val(data.phoneNum).end()
 	                .find('[name="birthDate"]').val(data.birthDate).end()
 	                .find('[name="gender"]').val(data.gender).end()
 	                .find('[name="creationDate"]').val(data.creationDate).end()
-	                .find('[name="lastLogin"]').val(data.lastLogin).end()
 	                .find('[name="ipAddress"]').val(data.ipAddress).end()
 	                .find('[name="country"]').val(data.country).end()
 	                .find('[name="city"]').val(data.city).end()
+	                .find('[name="updatedBy"]').val(data.updatedBy).end()
 	                .find('[name="zip"]').val(data.zip).end()
+	                .find('[name="phoneNum"]').val(data.phoneNum).end()
 	                .find('[name="location"]').val(data.location).end()
+	                .find('[name="lastLogin"]').val(data.lastLogin).end()
+	               
 
 	            // Show the dialog
 	            bootbox
@@ -139,7 +145,6 @@
 	
 	
 	function save(){
-		//e.preventDefault();
 		var token = $("meta[name='_csrf']").attr("content");
 		var header = $("meta[name='_csrf_header']").attr("content");
             var formData = JSON.stringify(jQuery('#userForm').serializeObject()); 
@@ -154,23 +159,14 @@
 					xhr.setRequestHeader(header, token);
 				},
 				contentType : 'application/json;charset=UTF-8'
-            }).success(function(response) {/* 
+            }).success(function(response) {
                 // Get the cells
-                var $button = $('button[data-id="' + response.id + '"]'),
-                    $tr     = $button.closest('tr'),
-                    $cells  = $tr.find('td');
-
-                // Update the cell data
-               /*  $cells
-                    .eq(1).html(response.name).end()
-                    .eq(2).html(response.email).end() */
+                var $custTable = $("#cust-table").dataTable( { bRetrieve : true } );
+				$custTable.fnDraw();
 
                 // Hide the dialog
-                //$form.parents('.bootbox').modal('hide');
-
-                // You can inform the user that the data is updated successfully
-                // by highlighting the row or showing a message box
-                bootbox.alert('The user profile is updated'); 
+                $('#userForm').parents('.bootbox').modal('hide');
+                bootbox.alert('The Customer profile was successfully updated'); 
             });
 	}
 </script>
@@ -212,16 +208,10 @@
 			</div>
 			<!-- The form which is used to populate the item data -->
 			<jsp:include page="view_customer.jsp"/>
-			
-
 			<div class="tab-pane fade" id="tab_b">
 			<jsp:include page="upload_customer.jsp"/>
-			
 			</div>
 		</div>
-		<!-- tab content -->
 	</div>
-	<!-- container -->
-
 </body>
 </html>

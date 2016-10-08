@@ -55,4 +55,9 @@ public class CustomerServiceImpl implements CustomerService {
 		return customerDao.getTotalRecords();
 	}
 
+	@Override
+	public void save(CustomerDetail customerDetail) {
+		customerDao.save(customerDetail);		
+	}
+
 }
