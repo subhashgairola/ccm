@@ -95,3 +95,13 @@
 .login-help{
   font-size: 12px;
 }
+
+.col-padding{
+	   padding-right: 15px;
+	   padding-left: 30px;
+	   padding-bottom: 15px;
+}
+.text-edit{
+	 height: 50px;
+     font-size: 12px;
+}

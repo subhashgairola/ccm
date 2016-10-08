@@ -1,104 +1,71 @@
+<div class="col-md-20">
+	<form id="userForm" method="post" style="display:none;">
+		<table>
+			<tbody>
+				<tr>
+					<td class="col-padding">ID</td>
+					<td><input type="text" name="id" style="height:30px;"
+						readonly="readonly" /></td>
+					<td class="col-padding">Name</td>
+					<td>
+							<input type="text" style="height:30px;" name="name" />
+					</td>
+				</tr>
+				<tr>
+					<td class="col-padding">Email</td>
+					<td><input type="text" style="height:30px;" name="email" /></td>
+					<td class="col-padding">Password</td>
+					<td><input type="text" style="height:30px;" name="password" /></td>
+				</tr>
 
-<div class="col-md-12">
-<form id="userForm" method="post" style="display: none;">
+				<tr>
+					<td class="col-padding">Phone No.</td>
+					<td><input type="text" style="height:30px;" name="phoneNum" /></td>
+					<td class="col-padding">Birthdate</td>
+					<td><input type="text" style="height:30px;" name="birthDate" />
+					</td>
+				</tr>
 
-				<div class="form-group">
-					<label class="col-md-3 control-label">ID</label>
-					<div class="col-md-3">
-						<input type="text" class="form-control" name="id"
-							disabled="disabled" />
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-md-3 control-label">Name</label>
-					<div class="col-md-3">
-						<input type="text" class="form-control" name="name" />
-					</div>
-				</div>
+				<tr>
+					<td class="col-padding">Gender</td>
+					<td><input type="text" style="height:30px;" name="gender" /></td>
+					<td class="col-padding">Creation Date</td>
+					<td><input type="text" style="height:30px;" name="creationDate" />
+					</td>
+				</tr>
 
-				<div class="form-group">
-					<label class="col-md-3 control-label">Email</label>
-					<div class="col-md-3">
-						<input type="text" class="form-control" name="email" />
-					</div>
-				</div>
-				
-				<div class="form-group">
-					<label class="col-md-3 control-label">Password</label>
-					<div class="col-md-3">
-						<input type="text" class="form-control" name="password" />
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label class="col-md-3 control-label">Phone No.</label>
-					<div class="col-md-3">
-						<input type="text" class="form-control" name="phoneNum" />
-					</div>
-				</div>
-				
-				<div class="form-group">
-					<label class="col-md-3 control-label">Birthdate</label>
-					<div class="col-md-3">
-						<input type="text" class="form-control" name="birthDate" />
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label class="col-md-3 control-label">Gender</label>
-					<div class="col-md-3">
-						<input type="text" class="form-control" name="gender" />
-					</div>
-				</div>
-				
-				<div class="form-group">
-					<label class="col-md-3 control-label">Creation Date</label>
-					<div class="col-md-3">
-						<input type="text" class="form-control" name="creationDate" />
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label class="col-md-3 control-label">Last Login date</label>
-					<div class="col-md-3">
-						<input type="text" class="form-control" name="lastLogin" />
-					</div>
-				</div>
-				
-				<div class="form-group">
-					<label class="col-md-3 control-label">IP Address</label>
-					<div class="col-md-3">
-						<input type="text" class="form-control" name="ipAddress" />
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label class="col-md-3 control-label">Country</label>
-					<div class="col-md-3">
-						<input type="text" class="form-control" name="country" />
-					</div>
-				</div>
-				
-				<div class="form-group">
-					<label class="col-md-3 control-label">City</label>
-					<div class="col-md-3">
-						<input type="text" class="form-control" name="city" />
-					</div>
-				</div>
-				
-				<div class="form-group">
-					<label class="col-md-3 control-label">Zip</label>
-					<div class="col-md-3">
-						<input type="text" class="form-control" name="zip" />
-					</div>
-				</div>
-
-				<!-- <div class="form-group">
-					<div class="col-md-3 col-xs-offset-3">
-						<button id="saveBtn" type="button" class="btn btn-default">Save</button>
-					</div>
-				</div> -->
-					<input type="hidden" name="${_csrf.parameterName}"
-						value="${_csrf.token}" />
-			</form>
+				<tr>
+					<td class="col-padding">Last Login date</td>
+					<td><input type="text" style="height:30px;" name="lastLogin" />
+					</td>
+					<td class="col-padding">IP Address</td>
+					<td><input type="text" style="height:30px;" name="ipAddress" />
+					</td>
+				</tr>
+				<tr>
+					<td class="col-padding">Country</td>
+					<td><input type="text" style="height:30px;" name="country" /></td>
+					<td class="col-padding">City</td>
+					<td><input type="text" style="height:30px;" name="city" /></td>
+				</tr>
+				<tr>
+					<td class="col-padding">Zip</td>
+					<td><input type="text" style="height:30px;" name="zip" /></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<!-- <tr>
+					<td class="col-padding">
+						<button id="saveBtn" name="saveBtn" onclick="save(); return false;" type="button"
+							class="btn btn-default">Save</button>
+					</td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr> -->
+			</tbody>
+		</table>
+		<input type="hidden" name="${_csrf.parameterName}"
+			value="${_csrf.token}" />
+	</form>
 </div>

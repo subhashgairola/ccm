@@ -40,10 +40,10 @@ public class AdminController {
 		return "adminPage";
 	}
 	
-	@RequestMapping(value = "/customer/{customerDetailId}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/customer", method = RequestMethod.POST)
 	@ResponseBody
-	public CustomerDetail updateCustomer(@RequestBody(required = false) CustomerDetail customerDetail, @PathVariable int customerDetailId) {
-		System.out.println(customerDetail +" -------- " + customerDetailId);
+	public CustomerDetail updateCustomer(@RequestBody(required = false) CustomerDetail customerDetail) {
+		System.out.println(customerDetail +" -------- ");
 		return null;
 
 	}

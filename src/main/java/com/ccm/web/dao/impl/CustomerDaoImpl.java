@@ -108,9 +108,9 @@ public class CustomerDaoImpl implements CustomerDao {
 							custDetail.setBirthDate(rs.getDate(7)!= null ? rs.getDate(7).toString():null);
 							custDetail.setGender(rs.getString(8));
 							custDetail.setCreationDate(rs.getDate(9));
-							custDetail.setCountry(rs.getString(10));
-							custDetail.setCity(rs.getString(11));
-							custDetail.setInsertedDate(rs.getTimestamp(12));
+							custDetail.setIpAddress(rs.getString(10));
+							custDetail.setCountry(rs.getString(11));
+							custDetail.setCity(rs.getString(12));
 							custDetail.setInsertedDate(rs.getTimestamp(13));
 							custDetail.setUpdateDate(rs.getTimestamp(14));
 							custDetail.setUpdatedBy(rs.getInt(15));

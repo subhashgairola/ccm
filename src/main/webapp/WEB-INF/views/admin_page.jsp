@@ -13,12 +13,10 @@
 <script type="text/javascript" src="../js/bootstrap.min.js"></script>
 <script type="text/javascript" src="../js/bootbox.min.js"></script>
 
-<link type="text/css" rel="stylesheet"
-	href="<c:url value="/css/bootstrap.css" />" />
-<link type="text/css" rel="stylesheet"
-	href="<c:url value="/css/bootstrap.min.css" />" />
-<link type="text/css" rel="stylesheet"
-	href="<c:url value="/css/jquery.dataTables.min.css" />" />
+<link type="text/css" rel="stylesheet" src="../css/bootstrap.css" />
+<link type="text/css" rel="stylesheet" 	src="../css/bootstrap.min.css" />
+<link type="text/css" rel="stylesheet" 	href="<c:url value="/css/jquery.dataTables.min.css" />" />
+<link type="text/css" rel="stylesheet" 	href="<c:url value="/css/app.css" />" />
 
 <style>
 .fade {
@@ -42,7 +40,7 @@
 			}, {
 				"targets" : [ 5 ],
 				"data" : null,
-				"defaultContent" : "<button>View</button>&nbsp;&nbsp;<button>Edit</button>"
+				"defaultContent" : "&nbsp;&nbsp;&nbsp;&nbsp;<button>View</button>&nbsp;&nbsp;"//<button>Edit</button>"
 			}/* , {
 				"targets" : [ 6 ],
 				"data" : null,
@@ -120,28 +118,43 @@
 	                })
 	                .modal('show');
 		});
+		
+		$.fn.serializeObject = function()
+		{
+		    var o = {};
+		    var a = this.serializeArray();
+		    $.each(a, function() {
+		        if (o[this.name] !== undefined) {
+		            if (!o[this.name].push) {
+		                o[this.name] = [o[this.name]];
+		            }
+		            o[this.name].push(this.value || '');
+		        } else {
+		            o[this.name] = this.value || '';
+		        }
+		    });
+		    return o;
+		};
 	});
-	$('#userForm').on('submit', function(e){
+	
+	
+	function save(){
+		//e.preventDefault();
 		var token = $("meta[name='_csrf']").attr("content");
 		var header = $("meta[name='_csrf_header']").attr("content");
-	    alert("The paragraph was clicked.");
-	
-            // Save the form data via an Ajax request
-            e.preventDefault();
-
-            var $form = $(e.target),
-                id    = $form.find('[name="id"]').val();
-
+            var formData = JSON.stringify(jQuery('#userForm').serializeObject()); 
+            console.log(formData);
             // The url and method might be different in your application
             $.ajax({
-                url: '/customer/' + id,
-                method: 'PUT',
-                data: $form.serialize(),
+                url: '../customer',
+                method: 'POST',
+                data : formData,
+                dataType : "json",
                 beforeSend : function(xhr) {
 					xhr.setRequestHeader(header, token);
 				},
 				contentType : 'application/json;charset=UTF-8'
-            }).success(function(response) {
+            }).success(function(response) {/* 
                 // Get the cells
                 var $button = $('button[data-id="' + response.id + '"]'),
                     $tr     = $button.closest('tr'),
@@ -153,13 +166,13 @@
                     .eq(2).html(response.email).end() */
 
                 // Hide the dialog
-                $form.parents('.bootbox').modal('hide');
+                //$form.parents('.bootbox').modal('hide');
 
                 // You can inform the user that the data is updated successfully
                 // by highlighting the row or showing a message box
-                bootbox.alert('The user profile is updated');
+                bootbox.alert('The user profile is updated'); 
             });
-	});
+	}
 </script>
 </head>
 <body>
