@@ -1,6 +1,6 @@
 <iframe id="uploadTrg" name="uploadTrg" height="0" width="0"
 	frameborder="0" scrolling="yes"></iframe>
-<form class="container" method="POST" target="uploadTrg"
+<form class="container" method="POST" target="uploadTrg" id="uploadForm" 
 	action="upload?${_csrf.parameterName}=${_csrf.token}"
 	enctype="multipart/form-data">
 
