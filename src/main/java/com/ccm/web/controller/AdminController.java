@@ -1,14 +1,15 @@
 package com.ccm.web.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 import javax.annotation.Resource;
 import javax.lang.model.element.Element;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -39,10 +40,11 @@ public class AdminController {
 		model.addAttribute("msg", "Welcome page for the Admin User!!");
 		return "adminPage";
 	}
-	
+
 	@RequestMapping(value = "/customer", method = RequestMethod.POST)
 	@ResponseBody
-	public CustomerDetail updateCustomer(@RequestBody(required = false) CustomerDetail customerDetail) {
+	public CustomerDetail updateCustomer(
+			@RequestBody(required = false) CustomerDetail customerDetail) {
 		customerService.save(customerDetail);
 		return customerDetail;
 
@@ -78,23 +80,26 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/admin/upload", method = RequestMethod.POST)
-	public String uploadFileHandler(@RequestParam("file") MultipartFile file,
-			@RequestParam("sourceType") String sourceType, Model model) {
-		if (!file.isEmpty()) {
-			try {
-				customerService.save(file, sourceType);
-				model.addAttribute("success", "You successfully uploaded file "
-						+ file.getOriginalFilename());
-			} catch (Exception e) {
-				e.printStackTrace();
-				model.addAttribute("error", "Error while uploading file "
-						+ file.getOriginalFilename());
-			}
-		} else {
-			model.addAttribute("error",
-					"You failed to upload " + file.getOriginalFilename()
-							+ " because the file was empty.");
+	public void uploadFileHandler(@RequestParam("file") MultipartFile file,
+			@RequestParam("sourceType") String sourceType,
+			HttpServletResponse response) {
+		String msg = "";
+		try {
+			customerService.save(file, sourceType);
+			msg = "File: " + file.getOriginalFilename() + " uploaded successfully";
+		} catch (Exception e) {
+			msg = "Error while uploading file: "
+					+ file.getOriginalFilename();
 		}
-		return "adminPage";
+
+		try {
+			PrintWriter responseWriter = response.getWriter();
+			responseWriter.write(msg);
+			responseWriter.flush();
+			responseWriter.close();
+		} catch (IOException e) {
+
+		}
+		return;
 	}
 }

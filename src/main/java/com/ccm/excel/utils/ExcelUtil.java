@@ -139,15 +139,10 @@ public class ExcelUtil {
 					int columnIndex = nextCell.getColumnIndex();
 					for (int i = 0; i < totalColumns; i++) {
 						if (i == columnIndex) {
-							try {
 								PropertyUtils.setProperty(aBook, columnMapping
 										.get(sourceType).get(columnIndex),
 										getCellValue(nextCell));
-							} catch (IllegalAccessException
-									| NoSuchMethodException
-									| InvocationTargetException e) {
-								e.printStackTrace();
-							}
+							
 							break;
 						}
 					}
