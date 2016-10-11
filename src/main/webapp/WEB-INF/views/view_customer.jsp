@@ -1,10 +1,17 @@
+<style>
+td{
+font-size: 12px;
+}
+
+</style>
+
 <div class="col-md-20">
 	<form id="userForm" method="post" style="display:none;">
 		<table>
 			<tbody>
 				<tr>
 					<td class="col-padding">ID</td>
-					<td><input type="text" name="id" style="height:30px;"
+					<td><input type="text" name="id" id="id" style="height:30px;"
 						readonly="readonly" /></td>
 					<td class="col-padding">Name</td>
 					<td>
@@ -30,13 +37,13 @@
 					<td class="col-padding">Gender</td>
 					<td><input type="text" style="height:30px;" name="gender" /></td>
 					<td class="col-padding">Creation Date</td>
-					<td><input type="text" style="height:30px;" readonly="readonly" name="creationDate" />
+					<td><input type="text" style="height:30px;" readonly="readonly" id="creationDate" name="creationDate" />
 					</td>
 				</tr>
 
 				<tr>
 					<td class="col-padding">Last Login date</td>
-					<td><input type="text" style="height:30px;" readonly="readonly"  name="lastLogin" />
+					<td><input type="text" style="height:30px;" readonly="readonly" id="lastLogin" name="lastLogin" />
 					</td>
 					<td class="col-padding">IP Address</td>
 					<td><input type="text" style="height:30px;" name="ipAddress" />
@@ -55,13 +62,15 @@
 					<td></td>
 				</tr>
 				<tr>
-					<td class="col-padding">
+					<td></td>
+					<td></td>
+					<td></td>
+					<td class="col-padding" align="right">
 						<button id="saveBtn" name="saveBtn" onclick="save(); return false;" type="button"
-							class="btn btn-info">Save</button>
+							class="btn btn-info">Update</button>
+						<button id="cancelBtn" name="cancelBtn" data-dismiss="modal" aria-hidden="true" type="cancel"
+							class="btn btn-info">Close</button>	
 					</td>
-					<td></td>
-					<td></td>
-					<td></td>
 				</tr>
 			</tbody>
 		</table>

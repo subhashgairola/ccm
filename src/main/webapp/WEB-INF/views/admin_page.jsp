@@ -10,11 +10,15 @@
 <script type="text/javascript" src="../js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="../js/bootstrap.min.js"></script>
 <script type="text/javascript" src="../js/bootbox.min.js"></script>
+
+<script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+
+<link type="text/css" rel="stylesheet" href="<c:url value="/css/jquery.dataTables.min.css" />" />
+<link type="text/css" rel="stylesheet" src="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" />
 <link type="text/css" rel="stylesheet" src="../css/bootstrap.css" />
 <link type="text/css" rel="stylesheet" src="../css/bootstrap.min.css" />
-<link type="text/css" rel="stylesheet" href="<c:url value="/css/jquery.dataTables.min.css" />" />
 <link type="text/css" rel="stylesheet" href="<c:url value="/css/app.css" />" />
 <script type="text/javascript">
     $(document)
@@ -25,21 +29,23 @@
                     "content");
                 var table = $('#cust-table')
                     .DataTable({
+                    	dom: 'Bfrtip',
+                    	 buttons: [ {
+                             extend: 'collection',
+                             text: 'Export',
+                             buttons: [
+                                 'excel'
+                             ]
+                         }
+                    	 ],
                         "columnDefs": [{
                             "targets": [5],
                             "data": null,
-                            "defaultContent": "&nbsp;&nbsp;<button>Edit</button>"
+                            "defaultContent": "&nbsp;<button onclick='openViewForm();return false;'>View</button>&nbsp;<button onclick='openEditForm();return false;'>Edit</button>"
                         }],
                         "pagingType": "simple_numbers",
                         "processing": true,
                         "serverSide": true,
-                        "initComplete": function() {
-                            table
-                                .buttons()
-                                .container()
-                                .appendTo(
-                                    $('#cust-table_wrapper .col-sm-6:eq(0)'));
-                        },
                         "buttons": ['excel'],
                         "ajax": {
                             url: "../customers",
@@ -69,14 +75,12 @@
                         }]
                     });
 
-
                 $('#cust-table tbody').on(
                     'click',
                     'button',
                     function() {
                         var data = table.row($(this).parents('tr'))
                             .data();
-                        //alert(data.customerDetailId + "'s salary is: " + data.name);
                         // Get the record's ID via attribute
                         var id = $(this).attr('data-id');
                         // Populate the form fields with the data returned from server
@@ -123,7 +127,8 @@
 
                         // Show the dialog
                         bootbox.dialog({
-                            title: 'Edit Customer',
+                        	id: 'userPopUp',
+                            title: 'View Customer',
                             message: $('#userForm'),
                             width: 900,
                             height: 500,
@@ -172,7 +177,6 @@
         var token = $("meta[name='_csrf']").attr("content");
         var header = $("meta[name='_csrf_header']").attr("content");
         var formData = JSON.stringify(jQuery('#userForm').serializeObject());
-        console.log(formData);
         // The url and method might be different in your application
         $.ajax({
             url: '../customer',
@@ -201,13 +205,35 @@
         $("#successSpan").html('');
         $("#errorSpan").html('');
     }
+    
+    function openViewForm(){
+    	$('#saveBtn').hide();
+    	//$('#cancelBtn').show();
+    	$('#userForm :input').attr('readonly','readonly');
+    }
+    function openEditForm(){
+    	//$('#cancelBtn').hide();
+    	$('#saveBtn').show();
+    	$('#userForm :input').removeAttr('readonly');
+    	$('#id').prop('readonly', 'readonly');
+    	$('#lastLogin').prop('readonly', 'readonly');
+    	$('#creationDate').prop('readonly', 'readonly');
+    }
+    
+    function refreshTable(){
+    	var $custTable = $("#cust-table").dataTable({
+            bRetrieve: true
+        });
+        $custTable.fnDraw();
+    }
+    
 </script>
 </head>
 <body>
 	<div class="container"
 		style="border: 1px solid #cecece; margin-top: 10px; width: 100%">
 		<ul class="nav nav-tabs">
-			<li class="active"><a href="#tab_a" data-toggle="tab">Customers</a></li>
+			<li class="active"><a href="#tab_a" onclick="refreshTable();" data-toggle="tab">Customers</a></li>
 			<li><a href="#tab_b" onclick="resetForm();" data-toggle="tab">Upload
 					Customers</a></li>
 		</ul>
@@ -218,12 +244,11 @@
 					<thead>
 						<tr>
 							<th width="10%;">Id</th>
-							<th width="25%;">Name</th>
-							<th width="30%;">Email</th>
-							<th width="20%;">Phone No.</th>
-							<th width="10%;">Source</th>
-							<th width="5%;">Edit</th>
-
+							<th width="37%;">Name</th>
+							<th width="25%;">Email</th>
+							<th width="15%;">Phone</th>
+							<th width="8%;">Source</th>
+							<th width="15%;"></th>
 						</tr>
 					</thead>
 					<tfoot>
@@ -233,7 +258,7 @@
 							<th>Email</th>
 							<th>Phone No.</th>
 							<th>Source</th>
-							<th>Edit</th>
+							<th></th>
 						</tr>
 					</tfoot>
 				</table>

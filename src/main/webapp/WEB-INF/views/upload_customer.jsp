@@ -23,7 +23,7 @@
 	<div class="form-group">
 
 		<input type="submit" value="Upload File" class="btn-info"
-			style="font-size: 12px">
+			style="font-size: 12px;margin-top: 10px;">
 	</div>
 
 	<input type="hidden" name="${_csrf.parameterName}"
