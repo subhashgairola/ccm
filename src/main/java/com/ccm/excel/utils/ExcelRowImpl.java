@@ -15,7 +15,7 @@ public class ExcelRowImpl implements ExcelRow {
 	private String mobileNum;
 	private String birthDate;
 	private String gender;
-	private Date creationDate;
+	private String creationDate;
 	private String ipAddress;
 	private String country;
 	private String city;
@@ -23,10 +23,14 @@ public class ExcelRowImpl implements ExcelRow {
 	private String zip;
 	private String phoneNum;
 	private String location;
-	private Date lastLogin;
+	private String lastLogin;
 	
 	private Timestamp insertedDate;
 	private Timestamp updateDate;
+	
+	private int stateId;
+	private String stateName;
+	private String isNews;
 
 	public ExcelRowImpl() {
 	}
@@ -35,13 +39,9 @@ public class ExcelRowImpl implements ExcelRow {
 		return source;
 	}
 
-
-
 	public void setSource(String source) {
 		this.source = source;
 	}
-
-
 
 	public String getId() {
 		return id;
@@ -106,11 +106,11 @@ public class ExcelRowImpl implements ExcelRow {
 		this.gender = gender;
 	}
 
-	public Date getCreationDate() {
+	public String getCreationDate() {
 		return creationDate;
 	}
 
-	public void setCreationDate(Date creationDate) {
+	public void setCreationDate(String creationDate) {
 		this.creationDate = creationDate;
 	}
 
@@ -178,11 +178,11 @@ public class ExcelRowImpl implements ExcelRow {
 	}
 
 	
-	public Date getLastLogin() {
+	public String getLastLogin() {
 		return lastLogin;
 	}
 
-	public void setLastLogin(Date lastLogin) {
+	public void setLastLogin(String lastLogin) {
 		this.lastLogin = lastLogin;
 	}
 
@@ -210,19 +210,45 @@ public class ExcelRowImpl implements ExcelRow {
 		this.company = company;
 	}
 
+	public int getStateId() {
+		return stateId;
+	}
+
+	public void setStateId(int stateId) {
+		this.stateId = stateId;
+	}
+
+	public String getStateName() {
+		return stateName;
+	}
+
+	public void setStateName(String stateName) {
+		this.stateName = stateName;
+	}
+	
+	public String getIsNews() {
+		return isNews;
+	}
+
+	public void setIsNews(String isNews) {
+		this.isNews = isNews;
+	}
 	@Override
 	public String toString() {
 		return "ExcelRowImpl [customerDetailId=" + customerDetailId
-				+ ", source=" + source + ", id=" + id + ", name="
-				+ name + ", password=" + password + ", email=" + email
-				+ ", mobileNum=" + mobileNum + ", birthDate=" + birthDate
-				+ ", gender=" + gender + ", creationDate=" + creationDate
-				+ ", ipAddress=" + ipAddress + ", country=" + country
-				+ ", city=" + city + ", insertedDate=" + insertedDate
-				+ ", updateDate=" + updateDate + ", updatedBy=" + updatedBy
-				+ ", zip=" + zip
-				+ ", phoneNum=" + phoneNum + ", location=" + location
-				+ ", lastLogin=" + lastLogin + ", jobTitle=" + jobTitle
-				+ ", company=" + company + "]";
+				+ ", source=" + source + ", id=" + id + ", name=" + name
+				+ ", password=" + password + ", email=" + email + ", jobTitle="
+				+ jobTitle + ", company=" + company + ", mobileNum="
+				+ mobileNum + ", birthDate=" + birthDate + ", gender=" + gender
+				+ ", creationDate=" + creationDate + ", ipAddress=" + ipAddress
+				+ ", country=" + country + ", city=" + city + ", updatedBy="
+				+ updatedBy + ", zip=" + zip + ", phoneNum=" + phoneNum
+				+ ", location=" + location + ", lastLogin=" + lastLogin
+				+ ", insertedDate=" + insertedDate + ", updateDate="
+				+ updateDate + ", stateId=" + stateId + ", stateName="
+				+ stateName + "]";
 	}
+
+	
+    
 }

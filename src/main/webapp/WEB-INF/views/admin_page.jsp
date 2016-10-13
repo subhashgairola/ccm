@@ -14,12 +14,13 @@
 <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
-
+ <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <link type="text/css" rel="stylesheet" href="<c:url value="/css/jquery.dataTables.min.css" />" />
 <link type="text/css" rel="stylesheet" src="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" />
 <link type="text/css" rel="stylesheet" src="../css/bootstrap.css" />
 <link type="text/css" rel="stylesheet" src="../css/bootstrap.min.css" />
 <link type="text/css" rel="stylesheet" href="<c:url value="/css/app.css" />" />
+ <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script type="text/javascript">
     $(document)
         .ready(
@@ -171,8 +172,14 @@
                                     .html(response);
                             }
                         });
+                $('#birthDate').datepicker({
+                	dateFormat: 'yy-mm-dd',
+                	changeYear: true,
+                	yearRange: "1900:"
+           		 }).keypress(function(event) {event.preventDefault();});
+               
             });
-
+    	
     function save() {
         var token = $("meta[name='_csrf']").attr("content");
         var header = $("meta[name='_csrf_header']").attr("content");
@@ -208,16 +215,16 @@
     
     function openViewForm(){
     	$('#saveBtn').hide();
-    	//$('#cancelBtn').show();
+    	$('#birthDate').prop('disabled', 'disabled');
     	$('#userForm :input').attr('readonly','readonly');
     }
     function openEditForm(){
-    	//$('#cancelBtn').hide();
     	$('#saveBtn').show();
     	$('#userForm :input').removeAttr('readonly');
     	$('#id').prop('readonly', 'readonly');
     	$('#lastLogin').prop('readonly', 'readonly');
     	$('#creationDate').prop('readonly', 'readonly');
+    	$('#birthDate').prop('disabled', false);
     }
     
     function refreshTable(){
@@ -246,9 +253,9 @@
 							<th width="10%;">Id</th>
 							<th width="37%;">Name</th>
 							<th width="25%;">Email</th>
-							<th width="15%;">Phone</th>
+							<th width="18%;">Phone</th>
 							<th width="8%;">Source</th>
-							<th width="15%;"></th>
+							<th width="12%;"></th>
 						</tr>
 					</thead>
 					<tfoot>

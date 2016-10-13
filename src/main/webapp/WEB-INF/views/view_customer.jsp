@@ -29,7 +29,7 @@ font-size: 12px;
 					<td class="col-padding">Phone No.</td>
 					<td><input type="text" style="height:30px;" name="phoneNum" /></td>
 					<td class="col-padding">Birthdate</td>
-					<td><input type="text" style="height:30px;" name="birthDate" />
+					<td><input type="text" style="height:30px;" id="birthDate" name="birthDate" />
 					</td>
 				</tr>
 

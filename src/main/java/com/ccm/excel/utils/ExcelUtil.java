@@ -4,12 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Timestamp;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -21,13 +16,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.poi.hssf.usermodel.HSSFDateUtil;
+import org.apache.poi.hssf.usermodel.HSSFFormulaEvaluator;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.DateUtil;
+import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.util.DateFormatConverter;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
@@ -62,28 +58,31 @@ public class ExcelUtil {
 		columnMapping.put(Constants.ZENDESK_SOURCE_TYPE, ZendexMap);
 
 		Map<Integer, String> magentoMap = new HashMap<Integer, String>();
-		magentoMap.put(0, Constants.COL_ID);
-		magentoMap.put(1, Constants.COL_NAME);
-		magentoMap.put(2, Constants.COL_MOBILE_NUM);
-		magentoMap.put(3, Constants.COL_PHONE_NO);
-		magentoMap.put(4, Constants.COL_ZIP);
-		magentoMap.put(5, Constants.COL_COUNTRY);
-		magentoMap.put(6, Constants.COL_CREATION_DATE);
+		magentoMap.put(0, Constants.SOURCE);
+		magentoMap.put(1, Constants.COL_ID);
+		magentoMap.put(2, Constants.COL_NAME);
+		magentoMap.put(3, Constants.COL_EMAIL);
+		magentoMap.put(4, Constants.COL_PHONE_NO);
+		magentoMap.put(5, Constants.COL_CREATION_DATE);
+		magentoMap.put(6, Constants.COL_ZIP);
+		magentoMap.put(7, Constants.COL_COUNTRY);
+		magentoMap.put(8, Constants.COL_STATE_NAME);
 
 		columnMapping.put(Constants.MAGENTO_SOURCE_TYPE, magentoMap);
 
 		Map<Integer, String> reederIDMap = new HashMap<Integer, String>();
-		reederIDMap.put(0, Constants.COL_ID);
-		reederIDMap.put(1, Constants.COL_NAME);
-		reederIDMap.put(2, Constants.COL_GENDER);
+		reederIDMap.put(0, Constants.SOURCE);
+		reederIDMap.put(1, Constants.COL_ID);
+		reederIDMap.put(2, Constants.COL_NAME);
 		reederIDMap.put(3, Constants.COL_EMAIL);
-		reederIDMap.put(4, Constants.COL_PASSWORD);
-		reederIDMap.put(5, Constants.COL_MOBILE_NUM);
-		reederIDMap.put(6, Constants.COL_BIRTH_DATE);
-		reederIDMap.put(7, Constants.COL_IP_ADDRESS);
-		reederIDMap.put(8, Constants.COL_LOCATION);
-		reederIDMap.put(9, Constants.COL_CREATION_DATE);
-
+		reederIDMap.put(4, Constants.COL_PHONE_NO);
+		reederIDMap.put(5, Constants.COL_CREATION_DATE);
+		reederIDMap.put(6, Constants.COL_PASSWORD);
+		reederIDMap.put(7, Constants.COL_GENDER);
+		reederIDMap.put(8, Constants.COL_IS_NEWS);
+		reederIDMap.put(9, Constants.COL_LOCATION);
+		reederIDMap.put(10, Constants.COL_IP_ADDRESS);
+		reederIDMap.put(11, Constants.COL_BIRTH_DATE);
 		columnMapping.put(Constants.REEDERID_SOURCE_TYPE, reederIDMap);
 
 		/*
@@ -97,34 +96,14 @@ public class ExcelUtil {
 		 */
 	}
 
-	private static Object getCellValue(Cell cell) {
-		switch (cell.getCellType()) {
-		case Cell.CELL_TYPE_STRING:
-			String cellValue = cell.getStringCellValue();
-			if(isValidTime(cellValue)){
-				return getDateTimeForISOString(cellValue);
-			} else{
-				return cellValue;
-			}
-		case Cell.CELL_TYPE_BOOLEAN:
-			return cell.getBooleanCellValue();
-		case Cell.CELL_TYPE_NUMERIC:
-			if (HSSFDateUtil.isCellDateFormatted(cell)) {
-				return DateUtil.getJavaDate(cell.getNumericCellValue());
-			} else {
-				cell.setCellType(Cell.CELL_TYPE_STRING);
-				return cell.getStringCellValue();
-			}
-		}
-		return null;
-	}
-
 	public static List<ExcelRow> getExcelRows(InputStream inputStream,
 			String sourceType) throws IOException, IllegalAccessException,
 			InvocationTargetException, NoSuchMethodException {
 		List<ExcelRow> listBooks = new ArrayList<>();
 
 		Workbook workbook = new XSSFWorkbook(inputStream);
+		DataFormatter objDefaultFormat = new DataFormatter();
+		FormulaEvaluator objFormulaEvaluator = workbook.getCreationHelper().createFormulaEvaluator();
 		Sheet firstSheet = workbook.getSheetAt(0);
 		Iterator<Row> iterator = firstSheet.iterator();
 		int totalColumns = firstSheet.getRow(0).getPhysicalNumberOfCells();
@@ -139,9 +118,12 @@ public class ExcelUtil {
 					int columnIndex = nextCell.getColumnIndex();
 					for (int i = 0; i < totalColumns; i++) {
 						if (i == columnIndex) {
-								PropertyUtils.setProperty(aBook, columnMapping
-										.get(sourceType).get(columnIndex),
-										getCellValue(nextCell));
+								
+								 objFormulaEvaluator.evaluate(nextCell); // This will evaluate the cell, And any type of cell will return string value
+								   String cellValueStr = objDefaultFormat.formatCellValue(nextCell,objFormulaEvaluator);
+								   PropertyUtils.setProperty(aBook, columnMapping
+											.get(sourceType).get(columnIndex),
+											cellValueStr);
 							
 							break;
 						}

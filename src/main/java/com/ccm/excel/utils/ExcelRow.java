@@ -24,7 +24,7 @@ public interface ExcelRow {
 
 	public String getGender();
 
-	public Date getCreationDate();
+	public String getCreationDate();
 
 	public String getIpAddress();
 
@@ -40,10 +40,16 @@ public interface ExcelRow {
 
 	public String getPhoneNum();
 
-	public Date getLastLogin();
+	public String getLastLogin();
 
 	public Timestamp getInsertedDate();
 
 	public Timestamp getUpdateDate();
-
+	
+	public int getStateId();
+	
+	public String getStateName();
+	
+	public String getIsNews();
+	
 }

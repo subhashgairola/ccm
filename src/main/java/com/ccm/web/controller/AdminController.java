@@ -88,6 +88,7 @@ public class AdminController {
 			customerService.save(file, sourceType);
 			msg = "File: " + file.getOriginalFilename() + " uploaded successfully";
 		} catch (Exception e) {
+			e.getStackTrace();
 			msg = "Error while uploading file: "
 					+ file.getOriginalFilename();
 		}

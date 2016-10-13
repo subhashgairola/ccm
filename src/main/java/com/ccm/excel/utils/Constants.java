@@ -1,7 +1,5 @@
 package com.ccm.excel.utils;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Constants {
 	public static final String NAV_SOURCE_TYPE = "NAV";
@@ -25,6 +23,8 @@ public class Constants {
 	public static final String COL_BIRTH_DATE = "birthDate";
 	public static final String COL_IP_ADDRESS = "ipAddress";
 	public static final String COL_LOCATION = "location";
+	public static final String COL_STATE_NAME = "stateName";
+	public static final String COL_IS_NEWS = "isNews";
 	
 		
 }
