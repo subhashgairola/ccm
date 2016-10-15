@@ -21,13 +21,18 @@ import com.ccm.datatable.utils.DataTablesRequest;
 import com.ccm.datatable.utils.DataTablesResponse;
 import com.ccm.datatable.utils.Search;
 import com.ccm.excel.utils.CustomerDetail;
+import com.ccm.web.entity.State;
 import com.ccm.web.service.CustomerService;
+import com.ccm.web.service.StateService;
 
 @Controller
 public class AdminController {
 
 	@Resource
 	private CustomerService customerService;
+	
+	@Resource
+	private StateService stateService;
 
 	@RequestMapping("/user/userPage")
 	public String getUserPage(ModelMap model) {
@@ -102,5 +107,12 @@ public class AdminController {
 
 		}
 		return;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/states")
+	public List<State> getStates(){
+		List<State> states = stateService.getAllStates();
+		return states;
 	}
 }

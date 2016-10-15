@@ -6,9 +6,8 @@
 <meta name="_csrf" content="${_csrf.token}" />
 <meta name="_csrf_header" content="${_csrf.headerName}" />
 <title>Admin Page</title>
-<script type="text/javascript" src="../js/jquery-1.12.3.js"></script>
+
 <script type="text/javascript" src="../js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="../js/bootstrap.min.js"></script>
 <script type="text/javascript" src="../js/bootbox.min.js"></script>
 
 <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
@@ -18,7 +17,6 @@
 <link type="text/css" rel="stylesheet" href="<c:url value="/css/jquery.dataTables.min.css" />" />
 <link type="text/css" rel="stylesheet" src="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" />
 <link type="text/css" rel="stylesheet" src="../css/bootstrap.css" />
-<link type="text/css" rel="stylesheet" src="../css/bootstrap.min.css" />
 <link type="text/css" rel="stylesheet" href="<c:url value="/css/app.css" />" />
  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script type="text/javascript">
@@ -32,11 +30,11 @@
                     .DataTable({
                     	dom: 'Bfrtip',
                     	 buttons: [ {
-                             extend: 'collection',
-                             text: 'Export',
-                             buttons: [
-                                 'excel'
-                             ]
+                    		 extend:'excel',
+                             text: 'Export Excel',
+                             exportOptions: {
+                                 columns: [0,1,2,3,4,5]
+                             }
                          }
                     	 ],
                         "columnDefs": [{
@@ -47,7 +45,6 @@
                         "pagingType": "simple_numbers",
                         "processing": true,
                         "serverSide": true,
-                        "buttons": ['excel'],
                         "ajax": {
                             url: "../customers",
                             type: "POST",
@@ -72,7 +69,37 @@
                         }, {
                             "data": "phoneNum"
                         }, {
-                            "data": "source"
+                            "data": "source",
+                        },{
+                            "data": "password",
+                            "visible":false
+                        }, {
+                            "data": "birthDate",
+                            "visible":false
+                        }, {
+                            "data": "gender",
+                            "visible":false
+                        }, {
+                            "data": "creationDate",
+                            "visible":false
+                        }, {
+                            "data": "lastLogin",
+                            "visible":false
+                        }, {
+                            "data": "ipAddress",
+                            "visible":false
+                        }, {
+                            "data": "country",
+                            "visible":false
+                        }, {
+                            "data": "city",
+                            "visible":false
+                        }, {
+                            "data": "zip",
+                            "visible":false
+                        }, {
+                            "data": "stateName",
+                            "visible":false
                         }]
                     });
 
@@ -84,6 +111,9 @@
                             .data();
                         // Get the record's ID via attribute
                         var id = $(this).attr('data-id');
+                        
+                        populateStatesDropDown(data.stateId);
+                        
                         // Populate the form fields with the data returned from server
                         $('#userForm').find(
                                 '[name="customerDetailId"]').val(
@@ -124,8 +154,8 @@
                                 '[name="location"]').val(
                                 data.location).end().find(
                                 '[name="lastLogin"]').val(
-                                data.lastLogin).end()
-
+                                data.lastLogin).end();
+                        
                         // Show the dialog
                         bootbox.dialog({
                         	id: 'userPopUp',
@@ -181,6 +211,11 @@
             });
     	
     function save() {
+    	 /* if (!$('#userForm')[0].checkValidity()) {
+    		 console.log('Invalid');
+             $('#userForm').find('input[type="email"]').click();
+             return false;
+         } */
         var token = $("meta[name='_csrf']").attr("content");
         var header = $("meta[name='_csrf_header']").attr("content");
         var formData = JSON.stringify(jQuery('#userForm').serializeObject());
@@ -216,6 +251,7 @@
     function openViewForm(){
     	$('#saveBtn').hide();
     	$('#birthDate').prop('disabled', 'disabled');
+    	$('#stateId').prop('disabled', 'disabled');
     	$('#userForm :input').attr('readonly','readonly');
     }
     function openEditForm(){
@@ -225,6 +261,24 @@
     	$('#lastLogin').prop('readonly', 'readonly');
     	$('#creationDate').prop('readonly', 'readonly');
     	$('#birthDate').prop('disabled', false);
+    	$('#stateId').prop('disabled', false);
+    }
+    
+    function populateStatesDropDown(selectedVal){
+    	$.ajax({
+            type: "GET",
+            url: "../states",
+            contentType: "application/json",              
+            dataType: "json",
+            success: function (data) {
+                $("#stateId").empty();
+                $("#stateId").prepend("<option value='0'>Select State</option>");
+                $.each(data, function () {
+                    $("#stateId").append($('<option></option>').val(this['stateId']).html(this['stateName']));
+                });
+                $('#stateId>option[value="' + selectedVal + '"]').prop('selected', true);
+            }
+        });
     }
     
     function refreshTable(){
@@ -233,6 +287,7 @@
         });
         $custTable.fnDraw();
     }
+    
     
 </script>
 </head>
@@ -256,6 +311,7 @@
 							<th width="18%;">Phone</th>
 							<th width="8%;">Source</th>
 							<th width="12%;"></th>
+							<th></th>
 						</tr>
 					</thead>
 					<tfoot>
@@ -265,6 +321,7 @@
 							<th>Email</th>
 							<th>Phone No.</th>
 							<th>Source</th>
+							<th></th>
 							<th></th>
 						</tr>
 					</tfoot>

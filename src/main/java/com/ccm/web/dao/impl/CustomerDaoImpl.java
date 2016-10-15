@@ -86,6 +86,7 @@ public class CustomerDaoImpl implements CustomerDao {
 							custDetail.setPhoneNum(rs.getString(18));
 							custDetail.setLocation(rs.getString(19));
 							custDetail.setLastLogin(rs.getString(20));
+							custDetail.setStateId(rs.getInt(21));
 							cusDetails.add(custDetail);
 						}
 						return cusDetails;
@@ -132,6 +133,7 @@ public class CustomerDaoImpl implements CustomerDao {
 							custDetail.setPhoneNum(rs.getString(18));
 							custDetail.setLocation(rs.getString(19));
 							custDetail.setLastLogin(rs.getString(20));
+							custDetail.setStateId(rs.getInt(21));
 							cusDetails.add(custDetail);
 						}
 						return cusDetails;
@@ -227,7 +229,7 @@ public class CustomerDaoImpl implements CustomerDao {
 	@Override
 	public void save(CustomerDetail customerDetail) {
 		String sql = "UPDATE customerdetail SET name = ?, password = ?, email = ?, phoneNum = ?, birthDate= ?, gender = ?, ipAddress = ?, country = ?, city = ?, "
-				+ " updateDate = ?, zip = ? WHERE customerDetailId = ?";
+				+ " updateDate = ?, zip = ?, stateId = ? WHERE customerDetailId = ?";
 		Date birthDate = null;
 		if (customerDetail.getBirthDate() != null
 				&& !customerDetail.getBirthDate().equals("")) {
@@ -244,6 +246,7 @@ public class CustomerDaoImpl implements CustomerDao {
 						customerDetail.getIpAddress(),
 						customerDetail.getCountry(), customerDetail.getCity(),
 						getTimestamp(null), customerDetail.getZip(),
+						customerDetail.getStateId(),
 						customerDetail.getCustomerDetailId() });
 	}
 

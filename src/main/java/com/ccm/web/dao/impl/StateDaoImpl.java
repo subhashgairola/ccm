@@ -17,7 +17,7 @@ public class StateDaoImpl implements StateDao {
 	private JdbcTemplate jdbcTemplate;
 	
 	@Override
-	public List<State> getStates() {
+	public List<State> getAllStates() {
 		String sql = "SELECT stateId, stateName from states";
 		List<State> states = jdbcTemplate.query(sql, new State());
 		return states;

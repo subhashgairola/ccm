@@ -20,7 +20,7 @@ font-size: 12px;
 				</tr>
 				<tr>
 					<td class="col-padding">Email</td>
-					<td><input type="text" style="height:30px;" name="email" /></td>
+					<td><input type="email" style="height:30px;" name="email" /></td>
 					<td class="col-padding">Password</td>
 					<td><input type="text" style="height:30px;" name="password" /></td>
 				</tr>
@@ -58,8 +58,9 @@ font-size: 12px;
 				<tr>
 					<td class="col-padding">Zip</td>
 					<td><input type="text" style="height:30px;" name="zip" /></td>
-					<td></td>
-					<td></td>
+					<td class="col-padding">State</td>
+					<td><select id="stateId" name="stateId">
+						</select></td>
 				</tr>
 				<tr>
 					<td></td>
