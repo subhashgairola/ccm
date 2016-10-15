@@ -26,5 +26,21 @@ public class Constants {
 	public static final String COL_STATE_NAME = "stateName";
 	public static final String COL_IS_NEWS = "isNews";
 	
+	//Source	ID	Name/Surname	Email	CreationDate
+	public static final String[] APSIS_COLUMNS = {"Source", "ID", "Name/Surname",	"Email", "CreationDate"}; 
+	
+	//Source	ID	Name/Surname	Phone	Location
+	public static final String[] NAV_COLUMNS = {"Source", "ID", "Name/Surname",	"Phone", "Location"}; 
+	
+	//Source	ID	Name/Surname	Email	Phone	CreationDate	Password	Sex	isNews	Location	IP	Birthday
+	public static final String[] REEDER_COLUMNS = {"Source", "ID", "Name/Surname", "Email",	"Phone", "CreationDate", "Password", "Sex", "isNews", "Location", "IP", "Birthday"}; 
+	
+	//Source	ID	Name/Surname	Email	CreationDate	Last Login
+	public static final String[] ZENDESK_COLUMNS = {"Source", "ID", "Name/Surname",	"Email", "CreationDate", "Last Login"};
+	
+	//Source	ID	Name/Surname	Email	Phone	CreationDate	ZIP	Country	State
+	public static final String[] MAGENTO_COLUMNS = {"Source", "ID", "Name/Surname",	"Email", "Phone","CreationDate", "ZIP","Country", "State"};
+	
+	
 		
 }
