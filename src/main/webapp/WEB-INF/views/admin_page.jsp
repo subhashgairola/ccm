@@ -116,7 +116,7 @@
 									// Get the record's ID via attribute
 									var id = $(this).attr('data-id');
 
-									populateStatesDropDown(data.stateId);
+									populateStatesDropDown(data);
 
 									// Populate the form fields with the data returned from server
 									$('#userForm').find(
@@ -139,8 +139,6 @@
 													data.mobileNum).end().find(
 													'[name="birthDate"]').val(
 													data.birthDate).end().find(
-													'[name="gender"]').val(
-													data.gender).end().find(
 													'[name="creationDate"]')
 											.val(data.creationDate).end().find(
 													'[name="ipAddress"]').val(
@@ -225,6 +223,7 @@
 		var token = $("meta[name='_csrf']").attr("content");
 		var header = $("meta[name='_csrf_header']").attr("content");
 		var formData = JSON.stringify(jQuery('#userForm').serializeObject());
+		console.log(formData);
 		// The url and method might be different in your application
 		$.ajax({
 			url : '../customer',
@@ -270,7 +269,7 @@
 		$('#stateId').prop('disabled', false);
 	}
 
-	function populateStatesDropDown(selectedVal) {
+	function populateStatesDropDown(json) {
 		$.ajax({
 			type : "GET",
 			url : "../states",
@@ -285,10 +284,14 @@
 							$('<option></option>').val(this['stateId']).html(
 									this['stateName']));
 				});
-				$('#stateId>option[value="' + selectedVal + '"]').prop(
+				$('#stateId>option[value="' + json.stateId + '"]').prop(
 						'selected', true);
 			}
 		});
+		$("input:radio").removeAttr("checked");
+		console.log(json.gender);
+		var id = '#gender_' + json.gender;
+		$(id).prop('checked','checked');
 	}
 
 	function refreshTable() {

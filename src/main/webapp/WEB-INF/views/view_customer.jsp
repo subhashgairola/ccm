@@ -30,7 +30,9 @@ td {
 				</tr>
 				<tr>
 					<td class="col-padding">Gender</td>
-					<td><input type="text" style="height: 30px;" name="gender" /></td>
+					<td> <input type="radio" id ="gender_1" name="gender" value="1"> Male
+                         <input type="radio" id ="gender_2" name="gender" value="2"> Female
+                     </td>
 					<td class="col-padding">City</td>
 					<td><input type="text" style="height: 30px;" name="city" /></td>
 				</tr>

@@ -196,11 +196,10 @@ public class CustomerDaoImpl implements CustomerDao {
 		if (customerDetail.getBirthDate() != null && !customerDetail.getBirthDate().equals("")) {
 			birthDate = getDate(customerDetail.getBirthDate(), "yyyy-MM-dd");
 		}
-
 		jdbcTemplate.update(sql,
 				new Object[] { customerDetail.getName(), customerDetail.getPassword(), customerDetail.getEmail(), customerDetail.getPhoneNum(),
 						birthDate, customerDetail.getGender(), customerDetail.getIpAddress(), customerDetail.getCountry(), customerDetail.getCity(),
-						getTimestamp(null), customerDetail.getZip(), customerDetail.getStateId(), customerDetail.getCustomerDetailId() });
+						getTimestamp(null), customerDetail.getZip(), customerDetail.getStateId() == 0 ? null :customerDetail.getStateId(), customerDetail.getCustomerDetailId() });
 	}
 
 	private static Date getDate(String dateString, String dateFormat) {
