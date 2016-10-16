@@ -53,7 +53,7 @@ public class CustomerDaoImpl implements CustomerDao {
 
 	@Override
 	public List<CustomerDetail> getCustomerDetails(int offset, int limit) throws DataAccessException {
-		return jdbcTemplate.query("select * from customerdetail LIMIT " + limit + " OFFSET " + offset,
+		return jdbcTemplate.query("SELECT customerdetail.*,states.stateName FROM customerdetail LEFT JOIN states  ON customerdetail.stateId=states.stateId LIMIT " + limit + " OFFSET " + offset,
 				new ResultSetExtractor<List<CustomerDetail>>() {
 					@Override
 					public List<CustomerDetail> extractData(ResultSet rs) throws SQLException, DataAccessException {
@@ -82,6 +82,7 @@ public class CustomerDaoImpl implements CustomerDao {
 							custDetail.setLocation(rs.getString(19));
 							custDetail.setLastLogin(rs.getString(20));
 							custDetail.setStateId(rs.getInt(21));
+							custDetail.setStateName(rs.getString(22));
 							cusDetails.add(custDetail);
 						}
 						return cusDetails;
@@ -92,7 +93,7 @@ public class CustomerDaoImpl implements CustomerDao {
 	@Override
 	public List<CustomerDetail> getCustomerDetailsWithSearchAndPage(int offset, int limit, String searchStr) throws DataAccessException {
 
-		return jdbcTemplate.query("SELECT * FROM customerdetail WHERE name LIKE '%" + searchStr + "%' OR" + " email LIKE '%" + searchStr
+		return jdbcTemplate.query("SELECT customerdetail.*,states.stateName FROM customerdetail LEFT JOIN states  ON customerdetail.stateId=states.stateId WHERE name LIKE '%" + searchStr + "%' OR" + " email LIKE '%" + searchStr
 				+ "%' OR phoneNum LIKE '%" + searchStr + "%' OR source  LIKE '%" + searchStr + "%' LIMIT " + limit + " OFFSET " + offset,
 				new ResultSetExtractor<List<CustomerDetail>>() {
 					@Override
@@ -122,6 +123,7 @@ public class CustomerDaoImpl implements CustomerDao {
 							custDetail.setLocation(rs.getString(19));
 							custDetail.setLastLogin(rs.getString(20));
 							custDetail.setStateId(rs.getInt(21));
+							custDetail.setStateName(rs.getString(22));
 							cusDetails.add(custDetail);
 						}
 						return cusDetails;

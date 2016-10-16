@@ -30,6 +30,7 @@
 						var token = $("meta[name='_csrf']").attr("content");
 						var header = $("meta[name='_csrf_header']").attr(
 								"content");
+						var hideFromExport = [5];
 						var table = $('#cust-table')
 								.DataTable(
 										{
@@ -37,12 +38,21 @@
 											buttons : [ {
 												extend : 'excel',
 												text : 'Export Excel',
+												exportOptions: {
+													columns: function ( idx, data, node ) {
+														var isNotForExport = $.inArray( idx, hideFromExport ) !== -1;
+														return !isNotForExport ? true : false;
+													}
+												}
 											} ],
 											"columnDefs" : [ {
 												"targets" : [ 5 ],
 												"data" : null,
 												"defaultContent" : "&nbsp;<button onclick='openViewForm();return false;'>View</button>&nbsp;<button onclick='openEditForm();return false;'>Edit</button>"
-											} ],
+											},{
+											    "targets": [6, 7, 8,9, 10,11,12,13,14,15],
+											    "visible": false
+											  } ],
 											"pagingType" : "simple_numbers",
 											"processing" : true,
 											"serverSide" : true,
@@ -70,8 +80,31 @@
 											}, {
 												"data" : "phoneNum"
 											}, {
-												"data" : "source",
-											} ]
+												"data" : "source"
+											}, {
+												"data" : null
+											}, {
+												"data" : "password"
+											}, {
+												"data" : "birthDate"
+											}, {
+												"data" : "gender"
+											},{
+												"data" : "city"
+											}, {
+												"data" : "zip"
+											}, {
+												"data" : "stateName"
+											},{
+												"data" : "country"
+											},  {
+												"data" : "ipAddress"
+											}, {
+												"data" : "creationDate"
+											}, {
+												"data" : "lastLogin"
+											} 
+											]
 										});
 
 						$('#cust-table tbody').on(
@@ -287,6 +320,16 @@
 							<th width="20%;">Phone</th>
 							<th width="8%;">Source</th>
 							<th width="12%;"></th>
+							<th>Password</th>
+							<th>Birthday</th>
+							<th>Sex</th>
+							<th>City</th>
+							<th>Zip</th>
+							<th>State</th>
+						    <th>Country</th>
+						    <th>IP</th>
+							<th>CreationDate</th>
+							<th>Last Login</th>
 						</tr>
 					</thead>
 					<tfoot>
@@ -296,6 +339,16 @@
 							<th>Email</th>
 							<th>Phone No.</th>
 							<th>Source</th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
 							<th></th>
 						</tr>
 					</tfoot>
