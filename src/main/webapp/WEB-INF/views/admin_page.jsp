@@ -211,19 +211,17 @@
 						}).keypress(function(event) {
 							event.preventDefault();
 						});
-
 					});
 
 	function save() {
-		/* if (!$('#userForm')[0].checkValidity()) {
-		 console.log('Invalid');
-		    $('#userForm').find('input[type="email"]').click();
+		
+		if (!$('#userForm')[0].checkValidity()) {
+		    $('#email-error').html('Invalid Email format!');
 		    return false;
-		} */
+		} 
 		var token = $("meta[name='_csrf']").attr("content");
 		var header = $("meta[name='_csrf_header']").attr("content");
 		var formData = JSON.stringify(jQuery('#userForm').serializeObject());
-		console.log(formData);
 		// The url and method might be different in your application
 		$.ajax({
 			url : '../customer',
@@ -289,7 +287,6 @@
 			}
 		});
 		$("input:radio").removeAttr("checked");
-		console.log(json.gender);
 		var id = '#gender_' + json.gender;
 		$(id).prop('checked','checked');
 	}
