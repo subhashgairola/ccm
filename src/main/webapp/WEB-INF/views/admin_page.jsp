@@ -207,6 +207,7 @@
 						$('#birthDate').datepicker({
 							dateFormat : 'yy-mm-dd',
 							changeYear : true,
+							changeMonth: true,
 							yearRange : "1900:"
 						}).keypress(function(event) {
 							event.preventDefault();
