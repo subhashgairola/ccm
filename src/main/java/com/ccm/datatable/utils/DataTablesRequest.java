@@ -52,5 +52,10 @@ public class DataTablesRequest {
 	public void setColumns(List<Column> columns) {
 		this.columns = columns;
 	}
+	@Override
+	public String toString() {
+		return "DataTablesRequest [draw=" + draw + ", start=" + start + ", length=" + length + ", search=" + search + ", orders=" + orders
+				+ ", columns=" + columns + "]";
+	}
 }
 

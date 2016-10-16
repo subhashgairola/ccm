@@ -36,31 +36,27 @@ public class CustomerDaoImpl implements CustomerDao {
 	private StateDao stateDao;
 
 	@Override
-	public long getTotalRecords() {
+	public long getTotalRecords() throws DataAccessException {
 		String sql = "select count(customerDetailId) from customerdetail";
-		long count = jdbcTemplate.queryForObject(sql, new Object[] {},
-				Long.class);
+		long count = jdbcTemplate.queryForObject(sql, new Object[] {}, Long.class);
 		return count;
 
 	}
 
-	public long getCustomerDetails(String searchStr) {
+	public long getCustomerDetails(String searchStr) throws DataAccessException {
 		String sql = "select count(customerDetailId) from customerdetail where name LIKE ? OR email LIKE ? OR phoneNum LIKE ? OR source LIKE ?";
-		long count = jdbcTemplate.queryForObject(sql, new Object[] {
-				"%" + searchStr + "%", "%" + searchStr + "%",
-				"%" + searchStr + "%", "%" + searchStr + "%" }, Long.class);
+		long count = jdbcTemplate.queryForObject(sql, new Object[] { "%" + searchStr + "%", "%" + searchStr + "%", "%" + searchStr + "%",
+				"%" + searchStr + "%" }, Long.class);
 		return count;
 
 	}
 
 	@Override
-	public List<CustomerDetail> getCustomerDetails(int offset, int limit) {
-		return jdbcTemplate.query("select * from customerdetail LIMIT " + limit
-				+ " OFFSET " + offset,
+	public List<CustomerDetail> getCustomerDetails(int offset, int limit) throws DataAccessException {
+		return jdbcTemplate.query("select * from customerdetail LIMIT " + limit + " OFFSET " + offset,
 				new ResultSetExtractor<List<CustomerDetail>>() {
 					@Override
-					public List<CustomerDetail> extractData(ResultSet rs)
-							throws SQLException, DataAccessException {
+					public List<CustomerDetail> extractData(ResultSet rs) throws SQLException, DataAccessException {
 						List<CustomerDetail> cusDetails = new ArrayList<CustomerDetail>();
 						CustomerDetail custDetail = null;
 						while (rs.next()) {
@@ -71,8 +67,7 @@ public class CustomerDaoImpl implements CustomerDao {
 							custDetail.setPassword(rs.getString(4));
 							custDetail.setEmail(rs.getString(5));
 							custDetail.setMobileNum(rs.getString(6));
-							custDetail.setBirthDate(rs.getDate(7) != null ? rs
-									.getDate(7).toString() : null);
+							custDetail.setBirthDate(rs.getDate(7) != null ? rs.getDate(7).toString() : null);
 							custDetail.setGender(rs.getString(8));
 							custDetail.setCreationDate(rs.getString(9));
 							custDetail.setIpAddress(rs.getString(10));
@@ -95,19 +90,13 @@ public class CustomerDaoImpl implements CustomerDao {
 	}
 
 	@Override
-	public List<CustomerDetail> getCustomerDetailsWithSearchAndPage(int offset,
-			int limit, String searchStr) {
+	public List<CustomerDetail> getCustomerDetailsWithSearchAndPage(int offset, int limit, String searchStr) throws DataAccessException {
 
-		return jdbcTemplate.query(
-				"SELECT * FROM customerdetail WHERE name LIKE '%" + searchStr
-						+ "%' OR" + " email LIKE '%" + searchStr
-						+ "%' OR phoneNum LIKE '%" + searchStr
-						+ "%' OR source  LIKE '%" + searchStr + "%' LIMIT "
-						+ limit + " OFFSET " + offset,
+		return jdbcTemplate.query("SELECT * FROM customerdetail WHERE name LIKE '%" + searchStr + "%' OR" + " email LIKE '%" + searchStr
+				+ "%' OR phoneNum LIKE '%" + searchStr + "%' OR source  LIKE '%" + searchStr + "%' LIMIT " + limit + " OFFSET " + offset,
 				new ResultSetExtractor<List<CustomerDetail>>() {
 					@Override
-					public List<CustomerDetail> extractData(ResultSet rs)
-							throws SQLException, DataAccessException {
+					public List<CustomerDetail> extractData(ResultSet rs) throws SQLException, DataAccessException {
 						List<CustomerDetail> cusDetails = new ArrayList<CustomerDetail>();
 						CustomerDetail custDetail = null;
 						while (rs.next()) {
@@ -118,8 +107,7 @@ public class CustomerDaoImpl implements CustomerDao {
 							custDetail.setPassword(rs.getString(4));
 							custDetail.setEmail(rs.getString(5));
 							custDetail.setMobileNum(rs.getString(6));
-							custDetail.setBirthDate(rs.getDate(7) != null ? rs
-									.getDate(7).toString() : null);
+							custDetail.setBirthDate(rs.getDate(7) != null ? rs.getDate(7).toString() : null);
 							custDetail.setGender(rs.getString(8));
 							custDetail.setCreationDate(rs.getString(9));
 							custDetail.setIpAddress(rs.getString(10));
@@ -143,7 +131,7 @@ public class CustomerDaoImpl implements CustomerDao {
 	}
 
 	@Override
-	public void save(List<ExcelRow> rows, String sourceSystem) {
+	public void save(List<ExcelRow> rows, String sourceSystem) throws DataAccessException {
 		String sql = "INSERT INTO customerdetail "
 				+ "(id, name, password, email, mobileNum, birthDate, gender, creationDate, ipAddress, country, city, insertedDate,"
 				+ " updateDate, updatedBy, source, zip, phoneNum, location, lastLogin, stateId)"
@@ -151,8 +139,7 @@ public class CustomerDaoImpl implements CustomerDao {
 
 		jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
 
-			public void setValues(PreparedStatement ps, int i)
-					throws SQLException {
+			public void setValues(PreparedStatement ps, int i) throws SQLException {
 				ExcelRow row = rows.get(i);
 				ps.setString(1, row.getId());
 				ps.setString(2, row.getName());
@@ -199,6 +186,21 @@ public class CustomerDaoImpl implements CustomerDao {
 
 	}
 
+	@Override
+	public void save(CustomerDetail customerDetail) throws DataAccessException {
+		String sql = "UPDATE customerdetail SET name = ?, password = ?, email = ?, phoneNum = ?, birthDate= ?, gender = ?, ipAddress = ?, country = ?, city = ?, "
+				+ " updateDate = ?, zip = ?, stateId = ? WHERE customerDetailId = ?";
+		Date birthDate = null;
+		if (customerDetail.getBirthDate() != null && !customerDetail.getBirthDate().equals("")) {
+			birthDate = getDate(customerDetail.getBirthDate(), "yyyy-MM-dd");
+		}
+
+		jdbcTemplate.update(sql,
+				new Object[] { customerDetail.getName(), customerDetail.getPassword(), customerDetail.getEmail(), customerDetail.getPhoneNum(),
+						birthDate, customerDetail.getGender(), customerDetail.getIpAddress(), customerDetail.getCountry(), customerDetail.getCity(),
+						getTimestamp(null), customerDetail.getZip(), customerDetail.getStateId(), customerDetail.getCustomerDetailId() });
+	}
+
 	private static Date getDate(String dateString, String dateFormat) {
 		DateFormat format = new SimpleDateFormat(dateFormat);
 		java.util.Date date = null;
@@ -224,30 +226,6 @@ public class CustomerDaoImpl implements CustomerDao {
 			}
 		}
 		return new java.sql.Timestamp(date.getTime());
-	}
-
-	@Override
-	public void save(CustomerDetail customerDetail) {
-		String sql = "UPDATE customerdetail SET name = ?, password = ?, email = ?, phoneNum = ?, birthDate= ?, gender = ?, ipAddress = ?, country = ?, city = ?, "
-				+ " updateDate = ?, zip = ?, stateId = ? WHERE customerDetailId = ?";
-		Date birthDate = null;
-		if (customerDetail.getBirthDate() != null
-				&& !customerDetail.getBirthDate().equals("")) {
-			birthDate = getDate(customerDetail.getBirthDate(), "yyyy-MM-dd");
-		}
-
-		jdbcTemplate.update(
-				sql,
-				new Object[] { customerDetail.getName(),
-						customerDetail.getPassword(),
-						customerDetail.getEmail(),
-						customerDetail.getPhoneNum(), birthDate,
-						customerDetail.getGender(),
-						customerDetail.getIpAddress(),
-						customerDetail.getCountry(), customerDetail.getCity(),
-						getTimestamp(null), customerDetail.getZip(),
-						customerDetail.getStateId(),
-						customerDetail.getCustomerDetailId() });
 	}
 
 }

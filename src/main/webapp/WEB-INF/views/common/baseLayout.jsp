@@ -8,8 +8,6 @@
 		<title>Customer Contact Management	</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">	
 		<link type="text/css" rel="stylesheet"	href="../css/bootstrap.min.css" />
-		<script type="text/javascript" src="../js/jquery-1.12.3.js"></script>
-		<script type="text/javascript" src="../js/bootstrap.min.js"></script>
 	<style>
 		#wrapper { width: 90%; background: #FCFCFC;margin:auto; overflow: hidden; min-height: 550px; }   
 		#header { background: #F0F0F0;  color: white;  border-bottom: 1px solid #ccc;}   

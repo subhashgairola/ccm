@@ -3,6 +3,7 @@ package com.ccm.web.dao.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -17,14 +18,14 @@ public class StateDaoImpl implements StateDao {
 	private JdbcTemplate jdbcTemplate;
 	
 	@Override
-	public List<State> getAllStates() {
+	public List<State> getAllStates() throws DataAccessException{
 		String sql = "SELECT stateId, stateName from states";
 		List<State> states = jdbcTemplate.query(sql, new State());
 		return states;
 	}
 
 	@Override
-	public State findByName(String name)  {
+	public State findByName(String name) throws DataAccessException {
 		String sql = "SELECT stateId, stateName from states WHERE stateName = ?";
 		State state = null;
 		try{

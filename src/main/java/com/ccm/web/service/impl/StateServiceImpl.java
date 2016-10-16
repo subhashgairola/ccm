@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.ccm.web.dao.StateDao;
@@ -17,7 +18,7 @@ public class StateServiceImpl implements StateService {
 	private StateDao stateDao;
 
 	@Override
-	public List<State> getAllStates() {
+	public List<State> getAllStates() throws DataAccessException{
 		return stateDao.getAllStates();
 	}
 

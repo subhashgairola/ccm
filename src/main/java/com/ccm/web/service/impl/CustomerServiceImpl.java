@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,38 +27,38 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public void save(MultipartFile file, String sourceType) throws IOException,
 			IllegalAccessException, InvocationTargetException,
-			NoSuchMethodException, InvalidExcelException {
+			NoSuchMethodException, InvalidExcelException, DataAccessException {
 		InputStream is = file.getInputStream();
 		List<ExcelRow> rows = ExcelUtil.getExcelRows(is, sourceType);
 		customerDao.save(rows, sourceType);
 	}
 
 	@Override
-	public List<CustomerDetail> getCustomerDetails(int offset, int limit) {
+	public List<CustomerDetail> getCustomerDetails(int offset, int limit) throws DataAccessException{
 		List<CustomerDetail> customerDetails = customerDao.getCustomerDetails(offset, limit);
 		return customerDetails;
 	}
 
 	@Override
 	public List<CustomerDetail> getCustomerDetailsWithSearchAndPage(int offset, int limit,
-			String searchStr) {
+			String searchStr) throws DataAccessException{
 		List<CustomerDetail> customerDetails = customerDao.getCustomerDetailsWithSearchAndPage(offset, limit, searchStr);
 		return customerDetails;
 		
 	}
 
 	@Override
-	public long getCustomerDetails(String searchStr) {
+	public long getCustomerDetails(String searchStr) throws DataAccessException{
 		return customerDao.getCustomerDetails(searchStr);
 	}
 
 	@Override
-	public long getTotalRecords() {
+	public long getTotalRecords() throws DataAccessException{
 		return customerDao.getTotalRecords();
 	}
 
 	@Override
-	public void save(CustomerDetail customerDetail) {
+	public void save(CustomerDetail customerDetail) throws DataAccessException{
 		customerDao.save(customerDetail);		
 	}
 
