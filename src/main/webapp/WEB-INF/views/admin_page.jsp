@@ -257,6 +257,7 @@
 		$('#birthDate').prop('disabled', 'disabled');
 		$('#stateId').prop('disabled', 'disabled');
 		$('#userForm :input').attr('readonly', 'readonly');
+		$('#email-error').html('');
 	}
 	function openEditForm() {
 		$('#saveBtn').show();
@@ -266,6 +267,7 @@
 		$('#creationDate').prop('readonly', 'readonly');
 		$('#birthDate').prop('disabled', false);
 		$('#stateId').prop('disabled', false);
+		$('#email-error').html('');
 	}
 
 	function populateStatesDropDown(json) {
