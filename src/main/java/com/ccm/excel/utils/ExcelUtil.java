@@ -43,7 +43,7 @@ public class ExcelUtil {
 		NAVMap.put(0, Constants.SOURCE);
 		NAVMap.put(1, Constants.COL_ID);
 		NAVMap.put(2, Constants.COL_NAME);
-		NAVMap.put(3, Constants.COL_MOBILE_NUM);
+		NAVMap.put(3, Constants.COL_PHONE_NO);
 		NAVMap.put(4, Constants.COL_LOCATION);
 		columnMapping.put(Constants.NAV_SOURCE_TYPE, NAVMap);
 

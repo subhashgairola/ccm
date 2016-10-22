@@ -33,7 +33,7 @@ color: #155092;
 
 <div id="header" >
 <table width="100%" border="0" class="ui-widget-header" > <tr> <td valign="top" width="20%">
-<img src="<%=request.getContextPath()%>/img/logo.png" width="200" height="70" style="margin: 0;"/> 
+<img src="<%=request.getContextPath()%>/images/logo.png" width="200" height="70" style="margin: 0;"/> 
 </td><td  width="50%"><h1>Customer Contact Management System</h1>
 </td> <td width="30%" valign="bottom" ><h5 >
  <c:if test="${pageContext.request.userPrincipal.name != null}">

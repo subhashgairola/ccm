@@ -3,6 +3,7 @@ package com.ccm.web.service.impl;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -25,31 +26,32 @@ public class CustomerServiceImpl implements CustomerService {
 	private CustomerDao customerDao;
 
 	@Override
-	public void save(MultipartFile file, String sourceType) throws IOException,
+	public List<ExcelRow> save(MultipartFile file, String sourceType) throws IOException,
 			IllegalAccessException, InvocationTargetException,
 			NoSuchMethodException, InvalidExcelException, DataAccessException {
 		InputStream is = file.getInputStream();
 		List<ExcelRow> rows = ExcelUtil.getExcelRows(is, sourceType);
-		customerDao.save(rows, sourceType);
+		List<ExcelRow> errorRows = customerDao.saveRows(rows, sourceType);
+		return errorRows;
 	}
 
 	@Override
-	public List<CustomerDetail> getCustomerDetails(int offset, int limit) throws DataAccessException{
-		List<CustomerDetail> customerDetails = customerDao.getCustomerDetails(offset, limit);
+	public List<CustomerDetail> getCustomerDetails(int offset, int limit, String orderByCol, String sortOrder) throws DataAccessException{
+		List<CustomerDetail> customerDetails = customerDao.getCustomerDetails(offset, limit, orderByCol, sortOrder);
 		return customerDetails;
 	}
 
 	@Override
 	public List<CustomerDetail> getCustomerDetailsWithSearchAndPage(int offset, int limit,
-			String searchStr) throws DataAccessException{
-		List<CustomerDetail> customerDetails = customerDao.getCustomerDetailsWithSearchAndPage(offset, limit, searchStr);
+			String searchStr, String orderByCol, String sortOrder) throws DataAccessException{
+		List<CustomerDetail> customerDetails = customerDao.getCustomerDetailsWithSearchAndPage(offset, limit, searchStr, orderByCol, sortOrder);
 		return customerDetails;
 		
 	}
 
 	@Override
-	public long getCustomerDetails(String searchStr) throws DataAccessException{
-		return customerDao.getCustomerDetails(searchStr);
+	public long getCountWithSearch(String searchStr) throws DataAccessException{
+		return customerDao.getCountBySearch(searchStr);
 	}
 
 	@Override

@@ -2,7 +2,9 @@ package com.ccm.web.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 import javax.lang.model.element.Element;
@@ -13,6 +15,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,6 +27,7 @@ import com.ccm.datatable.utils.DataTablesRequest;
 import com.ccm.datatable.utils.DataTablesResponse;
 import com.ccm.datatable.utils.Search;
 import com.ccm.excel.utils.CustomerDetail;
+import com.ccm.excel.utils.ExcelRow;
 import com.ccm.excel.utils.InvalidExcelException;
 import com.ccm.web.entity.State;
 import com.ccm.web.service.CustomerService;
@@ -78,14 +82,18 @@ public class AdminController {
 		int limit = dataTablesRequest.getLength();
 		Search search = dataTablesRequest.getSearch();
 		String searchStr = search.getValue();
+		int orderByColIndex = dataTablesRequest.getOrders().get(0).getColumn();
+		String orderByCol = dataTablesRequest.getColumns().get(orderByColIndex).getData();
+		String sortOrder = dataTablesRequest.getOrders().get(0).getDir();
 		try {
 			totalRecords = customerService.getTotalRecords();
 			if (searchStr.equals("")) {
-				customerDetails = customerService.getCustomerDetails(offset, limit);
+				
+				customerDetails = customerService.getCustomerDetails(offset, limit, orderByCol, sortOrder);
 				totalFilteredRecords = customerService.getTotalRecords();
 			} else {
-				totalFilteredRecords = customerService.getCustomerDetails(searchStr);
-				customerDetails = customerService.getCustomerDetailsWithSearchAndPage(offset, limit, searchStr);
+				totalFilteredRecords = customerService.getCountWithSearch(searchStr);
+				customerDetails = customerService.getCustomerDetailsWithSearchAndPage(offset, limit, searchStr, orderByCol, sortOrder);
 			}
 		} catch (DataAccessException e) {
 			LOGGER.error("DB exception in getCustomers() ", e);
@@ -107,12 +115,23 @@ public class AdminController {
 		LOGGER.info("********************** uploadFile()**********************started. File is " + file.getOriginalFilename());
 		String msg = "";
 		String fileName = "";
+		List<ExcelRow> errorRows = new ArrayList<ExcelRow>();
 		try {
 			fileName = file.getOriginalFilename();
 			String fileFormat = fileName.substring(fileName.lastIndexOf('.'), fileName.length());
 			if (fileFormat.equalsIgnoreCase(".xls") || fileFormat.equalsIgnoreCase(".xlsx")) {
-				customerService.save(file, sourceType);
-				msg = "File: " + fileName + " uploaded successfully.";
+				errorRows = customerService.save(file, sourceType);
+				if(errorRows.size() == 0) {
+					msg = "File: " + fileName + " uploaded successfully.";
+				} else if(sourceType.equalsIgnoreCase("NAV")){
+					String errorMsg = errorRows.stream().map(p -> p.getPhoneNum())
+					  .collect(Collectors.joining(", "));
+					msg = "File: " + fileName + " uploaded successfully. However " + errorRows.size() + " rows failed due to duplicate Phone number(s). <br>" + errorMsg;
+				} else {
+					String errorMsg = errorRows.stream().map(p -> p.getEmail())
+							  .collect(Collectors.joining(", "));
+							msg = "File: " + fileName + " uploaded successfully. However " + errorRows.size() + " rows failed due to duplicate Email(s).  <br>" + errorMsg;
+				}
 			} else {
 				msg = "Error uploading " + fileName + " due to incorrect file type. The allowed formats are .xls and .xlsx.";
 				LOGGER.error("Invalid excel format: " + msg);
