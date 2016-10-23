@@ -22,6 +22,7 @@ import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Repository;
 
+import com.ccm.excel.utils.Constants;
 import com.ccm.excel.utils.CustomerDetail;
 import com.ccm.excel.utils.ExcelRow;
 import com.ccm.web.dao.CustomerDao;
@@ -58,8 +59,8 @@ public class CustomerDaoImpl implements CustomerDao {
 	@Override
 	public List<CustomerDetail> getCustomerDetails(int offset, int limit, String orderByCol, String sortOrder) throws DataAccessException {
 		return jdbcTemplate.query(
-				"SELECT customerdetail.*,states.stateName FROM customerdetail LEFT JOIN states  ON customerdetail.stateId=states.stateId ORDER BY "+ orderByCol + " " + sortOrder +" LIMIT "
-						+ limit + " OFFSET " + offset, new ResultSetExtractor<List<CustomerDetail>>() {
+				"SELECT customerdetail.*,states.stateName FROM customerdetail LEFT JOIN states  ON customerdetail.stateId=states.stateId ORDER BY "
+						+ orderByCol + " " + sortOrder + " LIMIT " + limit + " OFFSET " + offset, new ResultSetExtractor<List<CustomerDetail>>() {
 					@Override
 					public List<CustomerDetail> extractData(ResultSet rs) throws SQLException, DataAccessException {
 						List<CustomerDetail> cusDetails = new ArrayList<CustomerDetail>();
@@ -72,7 +73,7 @@ public class CustomerDaoImpl implements CustomerDao {
 							custDetail.setPassword(rs.getString(4));
 							custDetail.setEmail(rs.getString(5));
 							custDetail.setMobileNum(rs.getString(6));
-							custDetail.setBirthDate(rs.getDate(7) != null ? rs.getDate(7).toString() : null);
+							custDetail.setBirthDate(rs.getDate(7) != null ? convertDateString(rs.getDate(7).toString()) : null);
 							custDetail.setGender(rs.getString(8));
 							custDetail.setCreationDate(rs.getString(9));
 							custDetail.setIpAddress(rs.getString(10));
@@ -96,12 +97,14 @@ public class CustomerDaoImpl implements CustomerDao {
 	}
 
 	@Override
-	public List<CustomerDetail> getCustomerDetailsWithSearchAndPage(int offset, int limit, String searchStr, String orderByCol, String sortOrder) throws DataAccessException {
+	public List<CustomerDetail> getCustomerDetailsWithSearchAndPage(int offset, int limit, String searchStr, String orderByCol, String sortOrder)
+			throws DataAccessException {
 
 		return jdbcTemplate.query(
 				"SELECT customerdetail.*,states.stateName FROM customerdetail LEFT JOIN states  ON customerdetail.stateId=states.stateId WHERE name LIKE '%"
 						+ searchStr + "%' OR" + " email LIKE '%" + searchStr + "%' OR phoneNum LIKE '%" + searchStr + "%' OR source  LIKE '%"
-						+ searchStr + "%' ORDER BY "+ orderByCol + " " + sortOrder +"  LIMIT " + limit + " OFFSET " + offset, new ResultSetExtractor<List<CustomerDetail>>() {
+						+ searchStr + "%' ORDER BY " + orderByCol + " " + sortOrder + "  LIMIT " + limit + " OFFSET " + offset,
+				new ResultSetExtractor<List<CustomerDetail>>() {
 					@Override
 					public List<CustomerDetail> extractData(ResultSet rs) throws SQLException, DataAccessException {
 						List<CustomerDetail> cusDetails = new ArrayList<CustomerDetail>();
@@ -114,7 +117,7 @@ public class CustomerDaoImpl implements CustomerDao {
 							custDetail.setPassword(rs.getString(4));
 							custDetail.setEmail(rs.getString(5));
 							custDetail.setMobileNum(rs.getString(6));
-							custDetail.setBirthDate(rs.getDate(7) != null ? rs.getDate(7).toString() : null);
+							custDetail.setBirthDate(rs.getDate(7) != null ? convertDateString(rs.getDate(7).toString()) : null);
 							custDetail.setGender(rs.getString(8));
 							custDetail.setCreationDate(rs.getString(9));
 							custDetail.setIpAddress(rs.getString(10));
@@ -148,58 +151,62 @@ public class CustomerDaoImpl implements CustomerDao {
 				+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 		for (ExcelRow row : rows) {
-			if (sourceSystem.equalsIgnoreCase("NAV") && row.getPhoneNum() != null && isCustomerDuplicate("phone", row.getPhoneNum())) {
+			if (sourceSystem.equalsIgnoreCase(Constants.NAV_SOURCE_TYPE) && row.getPhoneNum() != null && isCustomerDuplicate("phone", row.getPhoneNum())) {
 				errorRows.add(row);
-				LOGGER.info("Duplicate row: A user with this PhoneNo: "+ row.getPhoneNum() +" already exists.");
-			} else if ((sourceSystem.equalsIgnoreCase("APSIS") || sourceSystem.equalsIgnoreCase("Magento")
-					|| sourceSystem.equalsIgnoreCase("ReederID") || sourceSystem.equalsIgnoreCase("Zendesk"))
+				LOGGER.info("Duplicate row: A user with this PhoneNo: " + row.getPhoneNum() + " already exists.");
+			} else if ((sourceSystem.equalsIgnoreCase(Constants.APSIS_SOURCE_TYPE) || sourceSystem.equalsIgnoreCase(Constants.MAGENTO_SOURCE_TYPE)
+					|| sourceSystem.equalsIgnoreCase(Constants.REEDERID_SOURCE_TYPE) || sourceSystem.equalsIgnoreCase(Constants.ZENDESK_SOURCE_TYPE))
 					&& row.getEmail() != null && isCustomerDuplicate("email", row.getEmail())) {
 				LOGGER.info("Duplicate row: A user with Email: " + row.getEmail() + " already exists.");
 				errorRows.add(row);
 			} else {
-				jdbcTemplate.update(sql, new PreparedStatementSetter() {
-					@Override
-					public void setValues(PreparedStatement ps) throws SQLException {
+				try {
+					jdbcTemplate.update(sql, new PreparedStatementSetter() {
+						@Override
+						public void setValues(PreparedStatement ps) throws SQLException {
 
-						ps.setString(1, row.getId());
-						ps.setString(2, row.getName());
-						ps.setString(3, row.getPassword());
-						ps.setString(4, row.getEmail());
-						ps.setString(5, row.getMobileNum());
-						if (row.getBirthDate() == null) {
-							ps.setNull(6, java.sql.Types.DATE);
-						} else {
-							ps.setDate(6, getDate(row.getBirthDate(), "dd.MM.yyyy"));
-						}
-						ps.setString(7, row.getGender());
-						ps.setString(8, row.getCreationDate());
-						ps.setString(9, row.getIpAddress());
-						// Country is hardcoded
-						ps.setString(10, "Turkey");
-						ps.setString(11, row.getCity());
-						Timestamp ts = getTimestamp(null);
-						ps.setTimestamp(12, ts);
-						ps.setTimestamp(13, ts);
-						// Replace this from the value from spring security
-						// context
-						ps.setInt(14, 1);
-						ps.setString(15, row.getSource());
-						ps.setString(16, row.getZip());
-						ps.setString(17, row.getPhoneNum());
-						ps.setString(18, row.getLocation());
-						ps.setString(19, row.getLastLogin());
-						if (row.getStateName() != null) {
-							State state = stateDao.findByName(row.getStateName());
-							if (state != null) {
-								ps.setInt(20, state.getStateId());
+							ps.setString(1, row.getId());
+							ps.setString(2, row.getName());
+							ps.setString(3, row.getPassword());
+							ps.setString(4, row.getEmail());
+							ps.setString(5, row.getMobileNum());
+							if (row.getBirthDate() == null) {
+								ps.setNull(6, java.sql.Types.DATE);
+							} else {
+								ps.setDate(6, getDate(row.getBirthDate(), "dd-MM-yyyy"));
+							}
+							ps.setString(7, row.getGender());
+							ps.setString(8, row.getCreationDate());
+							ps.setString(9, row.getIpAddress());
+							// Country is hardcoded
+							ps.setString(10, "Turkey");
+							ps.setString(11, row.getCity());
+							Timestamp ts = getTimestamp(null);
+							ps.setTimestamp(12, ts);
+							ps.setTimestamp(13, ts);
+							// Replace this from the value from spring security
+							// context
+							ps.setInt(14, 1);
+							ps.setString(15, row.getSource());
+							ps.setString(16, row.getZip());
+							ps.setString(17, row.getPhoneNum());
+							ps.setString(18, row.getLocation());
+							ps.setString(19, row.getLastLogin());
+							if (row.getStateName() != null) {
+								State state = stateDao.findByName(row.getStateName());
+								if (state != null) {
+									ps.setInt(20, state.getStateId());
+								} else {
+									ps.setNull(20, java.sql.Types.INTEGER);
+								}
 							} else {
 								ps.setNull(20, java.sql.Types.INTEGER);
 							}
-						} else {
-							ps.setNull(20, java.sql.Types.INTEGER);
 						}
-					}
-				});
+					});
+				} catch (DataAccessException ex) {
+					LOGGER.error("Exception occurred while saving the row. Row: " + row + " Exception : " + ex);
+				}
 			}
 		}
 		LOGGER.info("********************** saveRows() end: Total  " + (rows.size() - errorRows.size()) + " rows inserted. Total " + errorRows.size()
@@ -213,13 +220,30 @@ public class CustomerDaoImpl implements CustomerDao {
 				+ " updateDate = ?, zip = ?, stateId = ? WHERE customerDetailId = ?";
 		Date birthDate = null;
 		if (customerDetail.getBirthDate() != null && !customerDetail.getBirthDate().equals("")) {
-			birthDate = getDate(customerDetail.getBirthDate(), "yyyy-MM-dd");
+			birthDate = getDate(customerDetail.getBirthDate(), "dd-MM-yyyy");
 		}
 		jdbcTemplate.update(sql,
 				new Object[] { customerDetail.getName(), customerDetail.getPassword(), customerDetail.getEmail(), customerDetail.getPhoneNum(),
 						birthDate, customerDetail.getGender(), customerDetail.getIpAddress(), customerDetail.getCountry(), customerDetail.getCity(),
 						getTimestamp(null), customerDetail.getZip(), customerDetail.getStateId() == 0 ? null : customerDetail.getStateId(),
 						customerDetail.getCustomerDetailId() });
+	}
+
+	public boolean isCustomerDuplicate(String paramType, String param, int cusDetailId) {
+		String query = null;
+		if (paramType.equals("email")) {
+			query = "SELECT count(customerDetailId) FROM customerdetail WHERE email = ? AND customerDetailId <> ?";
+		} else if (paramType.equals("phone")) {
+			query = "SELECT count(customerDetailId) FROM customerdetail WHERE phoneNum = ? AND customerDetailId <> ?";
+		}
+
+		Integer id = jdbcTemplate.queryForObject(query, new Object[] { param, cusDetailId }, Integer.class);
+		if (param.equals("")) {
+			return false;
+		} else {
+			return id > 0 ? true : false;
+		}
+
 	}
 
 	private boolean isCustomerDuplicate(String paramType, String param) {
@@ -245,7 +269,8 @@ public class CustomerDaoImpl implements CustomerDao {
 		try {
 			date = format.parse(dateString);
 		} catch (ParseException e) {
-			e.printStackTrace();
+			LOGGER.error("Invalid date format: Date " + dateString + ". Exception : " + e);
+			return null;
 		}
 		java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 		return sqlDate;
@@ -260,10 +285,16 @@ public class CustomerDaoImpl implements CustomerDao {
 			try {
 				date = dateFormat.parse(timestamp);
 			} catch (ParseException e) {
-				e.printStackTrace();
+				LOGGER.error("Invalid datetime format: Date " + timestamp + ". Exception : " + e);
+				return null;
 			}
 		}
 		return new java.sql.Timestamp(date.getTime());
 	}
 
+	private static String convertDateString(String date){
+		//Input is yyyy-MM-dd output should be dd-MM-YYYY
+		String finalDate = date.substring(8) + date.substring(4,8) + date.substring(0,4);
+		return finalDate;
+	}
 }

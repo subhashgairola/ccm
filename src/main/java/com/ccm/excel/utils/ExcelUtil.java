@@ -3,17 +3,12 @@ package com.ccm.excel.utils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.sql.Timestamp;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.poi.ss.usermodel.Cell;
@@ -23,8 +18,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
-import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 
 public class ExcelUtil {
 	static Map<String, Map<Integer, String>> columnMapping = null;
@@ -135,34 +128,19 @@ public class ExcelUtil {
 
 	private static void validateExcel(Row nextRow, String sourceType) throws InvalidExcelException {
 		String headerColumns[] = headerMapping.get(sourceType);
+		String message = "Error uploading file due to invalid format. The correct format for " + sourceType
+					+ " source is: " + String.join(", ", headerColumns);
+		if(sourceType.equals(Constants.REEDERID_SOURCE_TYPE)){
+			message  = message + " [DD-MM-YYYY]";
+		}
 		if (nextRow.getPhysicalNumberOfCells() != headerColumns.length) {
-			throw new InvalidExcelException("Error uploading file due to invalid format. The correct format for " + sourceType
-					+ " source is: " + String.join(",", headerColumns));
+			throw new InvalidExcelException(message);
 		}
 		for (int i = 0; i < headerColumns.length; i++) {
 			String column = nextRow.getCell(i).getStringCellValue().trim();
 			if (!column.equalsIgnoreCase(headerColumns[i])) {
-				throw new InvalidExcelException("Error uploading file due to invalid format. The correct format for " + sourceType
-						+ " source is: " + String.join(",", headerColumns));
+				throw new InvalidExcelException(message);
 			}
 		}
-	}
-
-	private static boolean isValidTime(String time) {
-		String regex = "^(?:[1-9]\\d{3}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1\\d|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31)|(?:[1-9]\\d(?:0[48]|[2468][048]|[13579][26])|(?:[2468][048]|[13579][26])00)-02-29)T(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:Z|[+-][01]\\d:[0-5]\\d)$";
-		Pattern pattern = Pattern.compile(regex);
-		Matcher m = pattern.matcher(time);
-		return m.matches();
-	}
-
-	private static Timestamp getDateTimeForISOString(String jtdate) {
-		ISO8601DateFormat df = new ISO8601DateFormat();
-		Date date = null;
-		try {
-			date = df.parse(jtdate);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return new java.sql.Timestamp(date.getTime());
 	}
 }

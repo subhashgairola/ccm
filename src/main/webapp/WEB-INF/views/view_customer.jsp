@@ -6,6 +6,7 @@ td {
 
 <div class="col-md-20">
 	<form id="userForm" method="post" style="display: none;">
+	    <span id="email-error" class="error-span"></span><br>
 		<table>
 			<tbody>
 				<tr>
@@ -18,7 +19,7 @@ td {
 				<tr>
 					<td class="col-padding">Email</td>
 					<td><input type="email" style="height: 30px;" name="email" />
-					<span id="email-error" style="font-size: 11px; color: #FF5733"></span></td>
+					</td>
 					<td class="col-padding">Password</td>
 					<td><input type="text" style="height: 30px;" name="password" /></td>
 				</tr>

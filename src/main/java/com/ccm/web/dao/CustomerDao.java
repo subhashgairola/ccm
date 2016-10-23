@@ -16,5 +16,6 @@ public interface CustomerDao {
 	long getCountBySearch(String searchStr) throws DataAccessException;
 	long getTotalRecords() throws DataAccessException;
 	void save(CustomerDetail customerDetail) throws DataAccessException;
+	boolean isCustomerDuplicate(String paramType, String param, int cusDetailId);
 
 }

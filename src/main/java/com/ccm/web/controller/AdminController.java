@@ -15,7 +15,6 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ccm.datatable.utils.DataTablesRequest;
 import com.ccm.datatable.utils.DataTablesResponse;
 import com.ccm.datatable.utils.Search;
+import com.ccm.excel.utils.Constants;
 import com.ccm.excel.utils.CustomerDetail;
 import com.ccm.excel.utils.ExcelRow;
 import com.ccm.excel.utils.InvalidExcelException;
@@ -57,18 +57,36 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/customer", method = RequestMethod.POST)
-	@ResponseBody
-	public CustomerDetail updateCustomer(@RequestBody(required = false) CustomerDetail customerDetail) {
+	public void updateCustomer(@RequestBody(required = false) CustomerDetail customerDetail, HttpServletResponse reponse) throws IOException {
 		LOGGER.info("********************** updateCustomer() start: Customer Detail " + customerDetail);
+		String paramType, param, error = "";
 		try {
-			customerService.save(customerDetail);
+			if(customerDetail.getSource().equals(Constants.NAV_SOURCE_TYPE)){
+				paramType = "phone";
+				param = customerDetail.getPhoneNum();
+			} else{
+				paramType = "email";
+				param = customerDetail.getEmail();
+			}
+			if(!param.equals("") && customerService.isCustomerDuplicate(paramType, param, customerDetail.getCustomerDetailId()) && paramType.equals("phone")){
+				error = "A customer with Phone No: " + param + " already exists.";
+			}else if (!param.equals("") && customerService.isCustomerDuplicate(paramType, param, customerDetail.getCustomerDetailId()) && paramType.equals("email")){ 
+				error = "A customer with Email: " + param + " already exists.";
+			} else{
+				customerService.save(customerDetail);
+			}
 		} catch (DataAccessException e) {
+			error = "Error occurred while updating customer.";
 			LOGGER.error("DB exeption occurred while updating customer. ", e);
 		} catch (Exception e) {
+			error = "Error occurred while updating customer.";
 			LOGGER.error("Exeption occurred while updating customer. ", e);
 		}
 		LOGGER.info("********************** updateCustomer() ********************** End");
-		return customerDetail;
+		PrintWriter responseWriter = reponse.getWriter();
+		responseWriter.write(error);
+		responseWriter.flush();
+		responseWriter.close();
 	}
 
 	@RequestMapping(value = "/customers", method = RequestMethod.POST)
@@ -126,11 +144,11 @@ public class AdminController {
 				} else if(sourceType.equalsIgnoreCase("NAV")){
 					String errorMsg = errorRows.stream().map(p -> p.getPhoneNum())
 					  .collect(Collectors.joining(", "));
-					msg = "File: " + fileName + " uploaded successfully. However " + errorRows.size() + " rows failed due to duplicate Phone number(s). <br>" + errorMsg;
+					msg = "File: " + fileName + " uploaded successfully. However, " + errorRows.size() + " row(s) failed due to duplicate Phone number. <br>" + errorMsg + " <br>";
 				} else {
 					String errorMsg = errorRows.stream().map(p -> p.getEmail())
 							  .collect(Collectors.joining(", "));
-							msg = "File: " + fileName + " uploaded successfully. However " + errorRows.size() + " rows failed due to duplicate Email(s).  <br>" + errorMsg;
+							msg = "File: " + fileName + " uploaded successfully. However, " + errorRows.size() + " row(s) failed due to duplicate Email.  <br>" + errorMsg + " <br>";
 				}
 			} else {
 				msg = "Error uploading " + fileName + " due to incorrect file type. The allowed formats are .xls and .xlsx.";

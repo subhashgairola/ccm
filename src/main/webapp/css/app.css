@@ -113,3 +113,14 @@
 	-o-transition: opacity 2.25s linear;
 	transition: opacity 2.25s linear;
 }
+.error-span{
+	font-size: 12px;
+	color: #FF5733;
+	margin-left: 0px;
+}
+
+.success-span{
+	font-size: 12px;
+	color: #006600;
+	margin-left: 0px;
+}

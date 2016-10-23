@@ -3,7 +3,6 @@ package com.ccm.web.service.impl;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -62,6 +61,11 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public void save(CustomerDetail customerDetail) throws DataAccessException{
 		customerDao.save(customerDetail);		
+	}
+
+	@Override
+	public boolean isCustomerDuplicate(String paramType, String param, int cusDetailId) {
+		return customerDao.isCustomerDuplicate(paramType, param, cusDetailId);
 	}
 
 }

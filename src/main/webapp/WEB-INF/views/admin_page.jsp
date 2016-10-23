@@ -195,6 +195,7 @@
 								.load(
 										function() {
 											var response = this.contentWindow.document.body.innerText;
+											$("#formatDiv").text('');
 											if (response.indexOf('Error') != -1) {
 												$("#successSpan").html('');
 												$("#errorSpan").html(response);
@@ -205,35 +206,33 @@
 											}
 										});
 						$('#birthDate').datepicker({
-							dateFormat : 'yy-mm-dd',
+							dateFormat : 'dd-mm-yy',
 							changeYear : true,
 							changeMonth: true,
 							yearRange : "1900:"
-						}).keypress(function(event) {
-							event.preventDefault();
-						});
+						}).on("keydown keypress keyup", false);
 					});
 
 	function save() {
 		
 		if (!$('#userForm')[0].checkValidity()) {
-		    $('#email-error').html('Invalid Email format!');
+		    $('#email-error').text('The Email format is not correct!');
 		    return false;
 		} 
 		var token = $("meta[name='_csrf']").attr("content");
 		var header = $("meta[name='_csrf_header']").attr("content");
 		var formData = JSON.stringify(jQuery('#userForm').serializeObject());
-		// The url and method might be different in your application
 		$.ajax({
 			url : '../customer',
 			method : 'POST',
 			data : formData,
-			dataType : "json",
+			dataType : "text",
 			beforeSend : function(xhr) {
 				xhr.setRequestHeader(header, token);
 			},
 			contentType : 'application/json;charset=UTF-8'
 		}).success(function(response) {
+			if(response == ''){
 			// Get the cells
 			var $custTable = $("#cust-table").dataTable({
 				bRetrieve : true
@@ -243,6 +242,9 @@
 			// Hide the dialog
 			$('#userForm').parents('.bootbox').modal('hide');
 			bootbox.alert('The Customer profile was successfully updated');
+			} else{
+				$('#email-error').text(response);
+			}
 		});
 	}
 
@@ -250,6 +252,7 @@
 		document.getElementById('uploadForm').reset();
 		$("#successSpan").html('');
 		$("#errorSpan").html('');
+		$("#formatDiv").text('');
 	}
 
 	function openViewForm() {
@@ -299,6 +302,24 @@
 			bRetrieve : true
 		});
 		$custTable.fnDraw();
+	}
+	
+	function showFormatMgs(input){
+		var msg = '';
+		if(input == 'APSIS'){
+			msg = 'Correct format for APSIS source is: Source, ID, Name/Surname, Email, CreationDate';
+		}else if(input == 'NAV') {
+			msg = 'Correct format for NAV source is: Source, ID , Name/Surname, Phone, Location';
+		} else if(input == 'Magento'){
+			msg = 'The correct format for Magento source is: Source, ID, Name/Surname, Email, Phone, CreationDate, ZIP, Country, State';
+		} else if(input == 'ReederID'){
+			msg = 'The correct format for ReederID source is: Source, ID, Name/Surname, Email, Phone, CreationDate, Password, Sex, isNews, Location, IP, Birthday[DD-MM-YYYY]';
+		}else if(input == 'Zendesk'){
+			msg = 'The correct format for Zendesk source is: Source, ID, Name/Surname, Email, CreationDate, Last Login';
+		}
+		$('#formatDiv').text(msg);
+		$('#errorSpan').html('');
+		$('#successSpan').html('');
 	}
 </script>
 </head>
