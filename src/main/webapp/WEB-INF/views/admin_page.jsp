@@ -34,7 +34,7 @@
 						var table = $('#cust-table')
 								.DataTable(
 										{
-											dom : 'Bfrtip',
+											dom: 'lBfrtip',
 											buttons : [ {
 												extend : 'excel',
 												text : 'Export Excel',
@@ -53,6 +53,7 @@
 											    "targets": [6, 7, 8,9, 10,11,12,13,14,15],
 											    "visible": false
 											  } ],
+											 "lengthMenu": [10, 50, 100, 200, 500],
 											"pagingType" : "simple_numbers",
 											"processing" : true,
 											"serverSide" : true,
@@ -307,15 +308,15 @@
 	function showFormatMgs(input){
 		var msg = '';
 		if(input == 'APSIS'){
-			msg = 'Correct format for APSIS source is: Source, ID, Name/Surname, Email, CreationDate';
+			msg = 'Correct format for APSIS source is: Source[APSIS], ID[359812888], Name/Surname[mustafa akca], Email[raixakca57@hotmail.com], CreationDate[2015-12-03T14:05:55+02:00]';
 		}else if(input == 'NAV') {
-			msg = 'Correct format for NAV source is: Source, ID , Name/Surname, Phone, Location';
+			msg = 'Correct format for NAV source is: Source[NAV], ID[22323232] , Name/Surname[CEMAL ERGİN], Phone[05326686178], Location[MERKEZ]';
 		} else if(input == 'Magento'){
-			msg = 'The correct format for Magento source is: Source, ID, Name/Surname, Email, Phone, CreationDate, ZIP, Country, State';
+			msg = 'The correct format for Magento source is: Source[Magento], ID[22479], Name/Surname[halil kırtaş], Email[hakemh@hotmail.com], Phone[5453028712], CreationDate[2015-09-05T19:26:33+03:00], ZIP[34000], Country[Turkey], State[Antalya]';
 		} else if(input == 'ReederID'){
-			msg = 'The correct format for ReederID source is: Source, ID, Name/Surname, Email, Phone, CreationDate, Password, Sex, isNews, Location, IP, Birthday[DD-MM-YYYY]';
+			msg = 'The correct format for ReederID source is: Source[ReederID], ID[6366364763], Name/Surname[mehmet keskin], Email[ayse.keskin.02@gmail.com], Phone[5342018802], CreationDate[2013-08-01T17:16:45+03:00], Password[05376835333], Sex[1], isNews[1], Location[İstanbul], IP[85.102.74.190], Birthday[DD-MM-YYYY]';
 		}else if(input == 'Zendesk'){
-			msg = 'The correct format for Zendesk source is: Source, ID, Name/Surname, Email, CreationDate, Last Login';
+			msg = 'The correct format for Zendesk source is: Source[Zendesk], ID[778482662], Name/Surname[Call Center], Email[alpa@reeder-tr.com], CreationDate[2015-04-14T20:33:09+03:00], Last Login[2016-09-07T19:28:24+03:00]';
 		}
 		$('#formatDiv').text(msg);
 		$('#errorSpan').html('');

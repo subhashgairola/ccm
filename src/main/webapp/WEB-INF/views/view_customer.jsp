@@ -27,7 +27,7 @@ td {
 					<td class="col-padding">Phone</td>
 					<td><input type="text" style="height: 30px;" name="phoneNum" /></td>
 					<td class="col-padding">Birthday</td>
-					<td><input type="text" style="height: 30px;" id="birthDate"
+					<td><input type="text" style="height: 30px;"  class="datepicker" id="birthDate"
 						name="birthDate" /></td>
 				</tr>
 				<tr>
