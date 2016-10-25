@@ -314,7 +314,7 @@
 		} else if(input == 'Magento'){
 			msg = 'The correct format for Magento source is: Source[Magento], ID[22479], Name/Surname[halil kırtaş], Email[hakemh@hotmail.com], Phone[5453028712], CreationDate[2015-09-05T19:26:33+03:00], ZIP[34000], Country[Turkey], State[Antalya]';
 		} else if(input == 'ReederID'){
-			msg = 'The correct format for ReederID source is: Source[ReederID], ID[6366364763], Name/Surname[mehmet keskin], Email[ayse.keskin.02@gmail.com], Phone[5342018802], CreationDate[2013-08-01T17:16:45+03:00], Password[05376835333], Sex[1], isNews[1], Location[İstanbul], IP[85.102.74.190], Birthday[DD-MM-YYYY]';
+			msg = 'The correct format for ReederID source is: Source[ReederID], ID[6366364763], Name/Surname[mehmet keskin], Email[ayse.keskin.02@gmail.com], Phone[5342018802], CreationDate[2013-08-01T17:16:45+03:00], Password[05376835333], Sex[1], isNews[1], Location[İstanbul], IP[85.102.74.190], Birthday[25-07-1985]';
 		}else if(input == 'Zendesk'){
 			msg = 'The correct format for Zendesk source is: Source[Zendesk], ID[778482662], Name/Surname[Call Center], Email[alpa@reeder-tr.com], CreationDate[2015-04-14T20:33:09+03:00], Last Login[2016-09-07T19:28:24+03:00]';
 		}
