@@ -25,9 +25,9 @@
 			<jdbc-user-service data-source-ref="dataSource"
 				users-by-username-query="
 					select userName,password, enabled 
-					from User where userName=?" 
+					from user where userName=?" 
 				authorities-by-username-query="
-					select u.userName, r.roleName from User u, Role r 
+					select u.userName, r.roleName from user u, role r 
 					where r.roleId=u.roleId and  u.userName=?"
 				/>
 			</authentication-provider>
